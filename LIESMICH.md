@@ -55,9 +55,13 @@ Python noch Internet nötig. Diese Ansicht liest keine echten PC-Sensoren aus.
 
 ## Netzwerk-Einheiten und Verlaufsskalen
 
-Unter **S → Netzwerk-Einheit** stehen **KB/s**, **MB/s**, **GB/s** und
-**Automatisch** zur Wahl. Voreingestellt sind feste MB/s. Das sind dezimale
-Byte-Einheiten: 1 MB/s = 1.000.000 Byte/s, keine Megabit pro Sekunde.
+Unter **S → Netzwerk-Einheit** stehen **kbit/s, Mbit/s, Gbit/s** und
+**KB/s, MB/s, GB/s** sowie **Automatisch · Bit/s** und **Automatisch · Byte/s**
+zur Wahl. Standard sind **Mbit/s mit drei Nachkommastellen**.
+Es sind dezimale Einheiten: **1 MB/s = 8 Mbit/s**. Dargestellt wird der tatsächlich
+gemessene Datenverkehr, nicht die maximale Bandbreite des Internetanschlusses.
+Beim Update auf v1.2.0 wird die Netzwerkeinheit einmalig auf Mbit/s gesetzt;
+danach werden eigene Auswahlen wieder beibehalten.
 Die Wahl bleibt im Browser gespeichert und gilt für beide Zahlen und Kurven.
 Sehr kleine positive Werte unter 0,001 der gewählten Einheit erscheinen als
 „<0.001“, fehlende Messwerte als „—“.
@@ -65,9 +69,26 @@ Sehr kleine positive Werte unter 0,001 der gewählten Einheit erscheinen als
 CPU, GPU, Upload und Download zeigen jeweils die letzten **60 Sekunden**.
 Die Zeitachse markiert **−60s**, **−30s** und **jetzt**. CPU/GPU verwenden
 die feste Höhenskala **0 %, 50 %, 100 %**. Netzwerk-Kurven tragen ihre Einheit
-und passen die beschriftete Höhenskala an den größten sichtbaren Messwert an.
+und passen im Automatikmodus die beschriftete Höhenskala an den größten
+sichtbaren Messwert an. Unter **Netzwerk-Verlaufsskala → Fest** kannst du eigene
+Upload- und Download-Maximalwerte in der ausgewählten Einheit festlegen.
+Die Beispiele 100 / 1000 Mbit/s sind keine automatisch erkannten Leitungswerte.
+Im festen Modus bleibt der obere Rand konstant; Werte darüber werden begrenzt
+und mit **↑** markiert. Ein Wechsel der Einheit rechnet die Grenzwerte um,
+ohne die gespeicherte Bandbreite zu ändern.
 Nach einer Unterbrechung werden Datenlücken nicht überbrückt. Ein Wechsel
 zwischen Demo und Live leert die Verläufe, damit keine Demodaten darin bleiben.
+
+## Drehrichtung der Ringmarkierungen
+
+**Ring-Drehrichtung** im Setup gilt für CPU, GPU, RAM, SSD und Lautstärke.
+**Regelmäßig wechselnd** wechselt standardmäßig ungefähr alle vier Sekunden
+die Richtung; das Intervall ist zwischen 1 und 15 Sekunden einstellbar und
+variiert je Ring um ±25 %, damit die Markierungen nicht synchron laufen.
+**Zufällig** entscheidet bei jedem Intervall neu, ob die Richtung wechselt.
+**Nur rechtsherum** und **Nur linksherum** behalten die jeweilige Richtung bei.
+Alle Wechsel werden weich überblendet. CPU-/GPU-Last steuern weiter das Tempo;
+**Bewegung aktiv** aus hält sämtliche Markierungen an. Die Auswahl wird gespeichert.
 
 ## Dezenter Sternenflug
 
@@ -89,7 +110,7 @@ benötigt keine externen Bilder oder Dienste und verwendet eine feste Sternenzah
 | VOLUME | Windows-Lautstärkeeinstellung des Standard-Ausgabegeräts, `pycaw`; bei Mute steht „STUMMGESCHALTET“ |
 | CPU TEMP | LibreHardwareMonitor: bevorzugt Package/Tctl/Tdie, sonst ein verfügbarer CPU-Temperatursensor |
 | GPU / GPU TEMP / VRAM | LibreHardwareMonitor; alternativ bei NVIDIA `nvidia-smi`, wenn LHM keine GPU-Werte liefert |
-| UP / DOWN | Gesendete/empfangene Bytes pro Sekunde, dezimale KB/s, MB/s oder GB/s |
+| UP / DOWN | Gesendete/empfangene Bytes pro Sekunde, dezimale Bit/s oder Byte/s gemäß Setup, Standard Mbit/s |
 | Uhr / Datum | Lokale Zeit und Zeitzone deines Windows-PCs |
 
 Die mittlere **CPU RESPONSE** ist eine Designanimation: höhere gemessene

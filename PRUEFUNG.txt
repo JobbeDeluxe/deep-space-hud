@@ -74,3 +74,16 @@ Netzwerk-/Verlauf-Prüfung — 09.11.2026, Windows / Chrome / Playwright
 - Bestehende Animations-, Warnfarben-, Sternenflug- und Einstellungstests bestanden.
 - 360 GIF-Frames, 24 Sekunden; bei 74 % CPU mehrere Sekunden orange vor Rot.
 - Orange Demo-Phase und neue Kurven visuell geprüft, ZIP-Dateien abgeglichen.
+
+Release v1.2.0 — 09.11.2026, Windows / Chrome / Playwright
+- Bit-/Byte-Umrechnung (Faktor 8), beide Automatikmodi und drei Nachkommastellen.
+- Einmalige Umstellung auf Mbit/s; danach gespeicherte Auswahl bleibt erhalten.
+- Uplink-Verlauf vor dem Messwertblock und Layout geprüft.
+- Feste Upload-/Download-Grenzen separat getestet, inklusive ↑ bei Überschreitung.
+- Wechsel Mbit/s -> MB/s erhält die Bandbreite; Grenzen und Modus bleiben gespeichert.
+- Leere oder ungültige Grenzen setzen die letzte gültige Eingabe wieder ein.
+- Alle fünf Ringmarkierungen: weicher Wechsel, feste Richtungen, Zufallsmodus,
+  Bewegung aus, gespeicherte Richtung und Intervall getestet.
+- Bestehende Warnfarben-, Lastreaktions-, Sternenflug- und Verlaufstests bestanden.
+- Neues GIF: 360 Frames / 24 Sekunden; aktuelle Mbit/s-Anzeige und Ringbewegung.
+- ZIP-Inhalt mit Quelldateien und SHA-256-Prüfsumme abgeglichen.

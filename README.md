@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow
+# Deep Space HUD · Cyan Flow · v1.2.0
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -51,15 +51,31 @@ die Effektstärke verändern und Bewegungen ausschalten.
 
 ## Netzwerk und Verlaufskurven
 
-Im Setup lassen sich **KB/s, MB/s, GB/s oder Automatik** auswählen; Standard
-ist **MB/s**. Es sind dezimale **Byte pro Sekunde**, keine Bit/s.
+Standard sind **Mbit/s mit drei Nachkommastellen**, wie bei Internetleitungen.
+Im Setup bleiben **kbit/s, Mbit/s, Gbit/s, KB/s, MB/s, GB/s** sowie getrennte
+Automatikmodi für Bit/s und Byte/s auswählbar. **1 MB/s = 8 Mbit/s**.
+Die Anzeige misst den tatsächlichen Datenverkehr, nicht die maximale Leitungsrate.
+Beim Update auf v1.2.0 wird Mbit/s einmalig aktiviert; spätere Auswahlen bleiben
+gespeichert.
 Upload und Download haben eigene Verlaufskurven neben den aktuellen Werten.
-Die jeweilige Höhenskala richtet sich nach dem größten Wert im sichtbaren
-Zeitraum und trägt Zahlen samt Einheit.
+Die Uplink-Kurve steht links außen, Pfeil und Messwert folgen rechts daneben.
+Die Höhenskala trägt Zahlen samt Einheit. Im Setup kannst du zwischen
+**automatischer Skalierung** und **festen Upload-/Download-Maximalwerten** wählen.
+Trage bei „Fest“ die Bandbreite deiner Leitung ein: Der obere Rand bleibt dann
+konstant. Die Vorgaben 100 / 1000 Mbit/s sind Beispiele. Werte darüber werden
+am oberen Rand mit ↑ markiert; ein Einheitenwechsel rechnet die Grenzen um.
 
 Alle vier Kurven zeigen die **letzten 60 Sekunden** mit „−60s“, „−30s“ und
 „jetzt“. CPU und GPU haben eine feste **0 / 50 / 100 %**-Skala. Datenlücken
 werden nicht verbunden; beim Demo-Wechsel werden die Verläufe zurückgesetzt.
+
+## Ringbewegung einstellen
+
+Unter **S → Ring-Drehrichtung**: regelmäßig wechselnd (Standard), zufällig,
+nur rechtsherum oder nur linksherum. Das gilt für alle fünf Markierungen.
+Das Wechselintervall lässt sich von **1 bis 15 Sekunden** einstellen (Standard
+4 Sekunden, leicht zeitversetzt mit ±25 %). Richtungswechsel werden weich
+überblendet; die CPU-/GPU-Last steuert weiterhin das Tempo.
 
 ## Sternenflug im Hintergrund
 

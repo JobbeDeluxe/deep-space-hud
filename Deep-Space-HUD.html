@@ -62,10 +62,10 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
 <section class="small-unit disk" data-metric="disk" aria-label="Laufwerk belegt"><span class="tag left">04 / STORAGE</span><div class="dial"></div><span class="tag right" id="diskTag">SYSTEM DISK</span></section>
 <section class="small-unit volume" data-metric="volume" aria-label="Windows-Lautstärke"><span class="tag left">05 / AUDIO</span><div class="dial"></div><span class="tag right">MASTER LEVEL</span></section>
 <div class="side-history right"><div class="history-label"><span>GPU</span><span>60s</span></div><canvas id="gpuHistory" class="history-plot" width="220" height="140" aria-label="GPU-Verlauf der letzten 60 Sekunden"></canvas><div class="history-foot">LOAD HISTORY</div></div>
-<footer><div class="network"><span class="arrow">↑</span><span class="label">UPLINK</span><span class="rate" id="upValue">— <small>MB/s</small></span><canvas id="upHistory" class="network-history" width="330" height="96" aria-label="Upload-Verlauf der letzten 60 Sekunden"></canvas></div><div class="footer-center"><div class="signal"><i></i><i></i><i></i><i></i><i></i></div><span id="footerStatus">LOCAL TELEMETRY / 1 Hz</span></div><div class="network"><span class="arrow">↓</span><span class="label">DOWNLINK</span><span class="rate" id="downValue">— <small>MB/s</small></span><canvas id="downHistory" class="network-history" width="330" height="96" aria-label="Download-Verlauf der letzten 60 Sekunden"></canvas></div></footer>
+<footer><div class="network"><canvas id="upHistory" class="network-history" width="330" height="96" aria-label="Upload-Verlauf der letzten 60 Sekunden"></canvas><span class="arrow">↑</span><span class="label">UPLINK</span><span class="rate" id="upValue">— <small>Mbit/s</small></span></div><div class="footer-center"><div class="signal"><i></i><i></i><i></i><i></i><i></i></div><span id="footerStatus">LOCAL TELEMETRY / 1 Hz</span></div><div class="network"><span class="arrow">↓</span><span class="label">DOWNLINK</span><span class="rate" id="downValue">— <small>Mbit/s</small></span><canvas id="downHistory" class="network-history" width="330" height="96" aria-label="Download-Verlauf der letzten 60 Sekunden"></canvas></div></footer>
 <div id="toast">F · Vollbild &nbsp; S · Einstellungen &nbsp; D · Demo</div>
 </main>
-<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Sternenflug im Hintergrund <input type="checkbox" id="starfieldToggle"></label><label>Sternen-Sichtbarkeit <span class="setting-control"><input type="range" id="starOpacity" min="0.1" max="1" step="0.05" aria-label="Sternen-Sichtbarkeit"><output id="starOpacityValue"></output></span></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Netzwerk-Einheit <select id="networkUnit"><option value="auto">Automatisch</option><option value="KB/s">KB/s</option><option value="MB/s">MB/s</option><option value="GB/s">GB/s</option></select></label><p>Dezimale Byte/s (keine Bit/s). Verläufe: letzte 60 Sekunden; Netzwerk-Skala passt sich dem höchsten Wert im sichtbaren Zeitraum an.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
+<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Sternenflug im Hintergrund <input type="checkbox" id="starfieldToggle"></label><label>Sternen-Sichtbarkeit <span class="setting-control"><input type="range" id="starOpacity" min="0.1" max="1" step="0.05" aria-label="Sternen-Sichtbarkeit"><output id="starOpacityValue"></output></span></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Ring-Drehrichtung <select id="ringDirection"><option value="alternate">Regelmäßig wechselnd</option><option value="random">Zufällig</option><option value="clockwise">Nur rechtsherum</option><option value="counterclockwise">Nur linksherum</option></select></label><label>Wechselintervall <span class="setting-control"><input type="range" id="ringInterval" min="1" max="15" step="0.5" aria-label="Ring-Richtungswechsel in Sekunden"><output id="ringIntervalValue"></output></span></label><p>Gilt für alle fünf Ringmarkierungen. Wechsel erfolgen weich und leicht zeitversetzt; das Intervall variiert um ±25 %. Im Zufallsmodus kann eine Richtung länger bestehen bleiben.</p><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Netzwerk-Einheit <select id="networkUnit"><option value="Mbit/s">Mbit/s (Standard)</option><option value="kbit/s">kbit/s</option><option value="Gbit/s">Gbit/s</option><option value="auto-bit">Automatisch · Bit/s</option><option value="KB/s">KB/s</option><option value="MB/s">MB/s</option><option value="GB/s">GB/s</option><option value="auto">Automatisch · Byte/s</option></select></label><fieldset class="thresholds"><legend>Netzwerk-Verlaufsskala</legend><label>Höhenskala <select id="networkScaleMode"><option value="auto">Automatisch</option><option value="fixed">Fest · eigene Bandbreite</option></select></label><label>Upload-Maximum <span class="setting-control"><input type="number" id="networkUploadMax" min="0" step="any"><span id="uploadScaleUnit"></span></span></label><label>Download-Maximum <span class="setting-control"><input type="number" id="networkDownloadMax" min="0" step="any"><span id="downloadScaleUnit"></span></span></label><p>Bei „Fest“ entspricht der obere Rand deiner eingetragenen Bandbreite. Die Vorgaben 100 / 1000 Mbit/s sind Beispiele, keine erkannten Leitungswerte. Werte darüber werden am oberen Rand begrenzt und mit ↑ markiert.</p></fieldset><p>Dezimale Einheiten: 1 MB/s = 8 Mbit/s. Angezeigt wird der gemessene Datenverkehr, nicht die maximale Leitungsrate. Verläufe: letzte 60 Sekunden; Netzwerk-Skala wahlweise automatisch oder fest.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
 <script>
 'use strict';
 const $=id=>document.getElementById(id),metrics=['cpu','gpu','ram','disk','volume'];
@@ -82,18 +82,25 @@ let demo=location.protocol==='file:'||new URLSearchParams(location.search).get('
 let motion=saved.motion ?? !matchMedia('(prefers-reduced-motion: reduce)').matches;
 function option(value,fallback,min,max){return typeof value==='number'&&Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback}
 let intensity=option(saved.intensity,1,.25,2);
-const networkUnits={'KB/s':1e3,'MB/s':1e6,'GB/s':1e9};
-let networkUnit=['auto',...Object.keys(networkUnits)].includes(saved.networkUnit)?saved.networkUnit:'MB/s';
+// Telemetry remains in bytes/s; bit units use 1/8 of the corresponding divisor.
+const networkUnits={'KB/s':1e3,'MB/s':1e6,'GB/s':1e9,'kbit/s':1e3/8,'Mbit/s':1e6/8,'Gbit/s':1e9/8};
+// Apply the requested new default once; keep subsequent explicit choices.
+const networkUnitPreferenceVersion=2;
+let networkUnit=saved.networkUnitPreferenceVersion===2&&['auto','auto-bit',...Object.keys(networkUnits)].includes(saved.networkUnit)?saved.networkUnit:'Mbit/s';
+let networkScaleMode=saved.networkScaleMode==='fixed'?'fixed':'auto';
+let networkUploadMax=option(saved.networkUploadMax,100e6/8,1,1e15),networkDownloadMax=option(saved.networkDownloadMax,1e9/8,1,1e15);
 let starfieldEnabled=saved.starfieldEnabled!==false,starOpacity=option(saved.starOpacity,.45,.1,1);
 let smoothing=option(saved.smoothing,.8,.3,4),animationSpeed=option(saved.animationSpeed,.5,.2,1);
 let tempOrange=Math.round(option(saved.tempOrange,65,0,149)),tempRed=Math.round(option(saved.tempRed,75,1,150));
 let usageOrange=Math.round(option(saved.usageOrange,70,0,99)),usageRed=Math.round(option(saved.usageRed,80,1,100));
 if(tempOrange>=tempRed){tempOrange=65;tempRed=75}
 if(usageOrange>=usageRed){usageOrange=70;usageRed=80}
+let ringDirection=['alternate','random','clockwise','counterclockwise'].includes(saved.ringDirection)?saved.ringDirection:'alternate';
+let ringInterval=option(saved.ringInterval,4,1,15);
 let wavePhase=0,wavePhaseSecondary=0;
 for(const key of metrics){
  Object.assign(dials[key],{angle:Math.random()*360,velocity:0,drift:.8+Math.random()*.4,
-  direction:Math.random()<.5?-1:1,nextDrift:2+Math.random()*3});
+  direction:ringDirection==='clockwise'?1:ringDirection==='counterclockwise'?-1:Math.random()<.5?-1:1,nextDrift:ringInterval*(.75+Math.random()*.5)});
 }
 let values={},sources={},live=false,lastFrame=0,lastHistory=0,requestId=0,visualCpu=0;
 const historyKeys=['cpu','gpu','up','down'];
@@ -102,16 +109,19 @@ let history=emptyHistory();
 const valid=v=>typeof v==='number'&&Number.isFinite(v);
 const clamp=v=>Math.max(0,Math.min(100,v));
 const fmt=v=>valid(v)?Math.round(v):'—';
-function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,networkUnit,starfieldEnabled,starOpacity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
+function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,ringDirection,ringInterval,networkUnit,networkUnitPreferenceVersion,networkScaleMode,networkUploadMax,networkDownloadMax,starfieldEnabled,starOpacity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
 function fit(){const scale=Math.min(innerWidth/1024,innerHeight/600);$('hud').style.transform=`scale(${scale})`}
 addEventListener('resize',fit);fit();
 function warningColor(value,orange,red){return !valid(value)?'':value>=red?'#ff5263':value>=orange?'#ff9f43':''}
 function temperature(id,value){$(id).textContent=fmt(value)+' °C';$(id).style.color=warningColor(value,tempOrange,tempRed)}
-function rateUnit(value){return networkUnit==='auto'?(value>=1e9?'GB/s':value>=1e6?'MB/s':'KB/s'):networkUnit}
+function rateUnit(value){
+ if(networkUnit==='auto-bit')return value*8>=1e9?'Gbit/s':value*8>=1e6?'Mbit/s':'kbit/s';
+ return networkUnit==='auto'?(value>=1e9?'GB/s':value>=1e6?'MB/s':'KB/s'):networkUnit;
+}
 function rateText(value,unit){
  if(!valid(value))return '—';
  const scaled=Math.max(0,value)/networkUnits[unit];
- return scaled>0&&scaled<.001?'<0.001':scaled.toFixed(scaled>=100?1:scaled>=1?2:3);
+ return scaled>0&&scaled<.001?'<0.001':scaled.toFixed(3);
 }
 function rate(id,value){const unit=rateUnit(value);$(id).innerHTML=`${rateText(value,unit).replace('<','&lt;')} <small>${unit}</small>`}
 function applyValues(data,connected){
@@ -177,17 +187,18 @@ function drawHistory(key,now=performance.now()){
  const points=history[key].filter(p=>p.time>=now-60000&&p.time<=now);
  const peak=Math.max(0,...points.map(p=>valid(p.value)?p.value:0));
  const unit=net?rateUnit(peak):'%';
- const ceiling=net?niceCeiling(Math.max(peak,networkUnits[unit]*.01)):100;
+ const ceiling=net?(networkScaleMode==='fixed'?(key==='up'?networkUploadMax:networkDownloadMax):niceCeiling(Math.max(peak/networkUnits[unit],.01))*networkUnits[unit]):100;
  c.dataset.scaleMax=String(ceiling);c.dataset.unit=unit;
  c.setAttribute('aria-label',`${key.toUpperCase()}: letzte 60 Sekunden, Skala 0 bis ${net?ceiling/networkUnits[unit]:100} ${unit}`);
  ctx.font='8px Consolas,monospace';ctx.textBaseline='middle';ctx.textAlign='right';
  for(const fraction of [1,.5,0]){
   const y=bottom-(bottom-top)*fraction,v=ceiling*fraction;
-  const label=net?Number((v/networkUnits[unit]).toFixed(4)).toString():v+'%';
+  const scaled=v/networkUnits[unit];
+  const label=net?(scaled>0&&scaled<.001?scaled.toExponential(1):Number(scaled.toPrecision(5)).toString()):v+'%';
   ctx.fillStyle='#739ba6';ctx.fillText(label,left-4,y);
   ctx.strokeStyle='#214552';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
  }
- if(net){ctx.textAlign='left';ctx.textBaseline='top';ctx.fillStyle='#739ba6';ctx.fillText(unit,0,0)}
+ if(net){ctx.textAlign='left';ctx.textBaseline='top';ctx.fillStyle='#739ba6';ctx.fillText(unit,0,0);if(peak>ceiling){ctx.textAlign='right';ctx.fillStyle='#ff9f43';ctx.fillText('↑',right,0)}}
  ctx.textBaseline='bottom';ctx.fillStyle='#739ba6';
  for(const [fraction,label,align] of [[0,'−60s','left'],[.5,'−30s','center'],[1,'jetzt','right']]){
   ctx.textAlign=align;ctx.fillText(label,left+(right-left)*fraction,height-1);
@@ -221,9 +232,11 @@ function advanceSpinner(d,load,dt){
  d.nextDrift-=dt;
  if(d.nextDrift<=0){
   d.drift=.7+Math.random()*.6;
-  if(Math.random()<.3)d.direction*=-1;
-  d.nextDrift=2+Math.random()*3;
+  if(ringDirection==='alternate'||(ringDirection==='random'&&Math.random()<.5))d.direction*=-1;
+  d.nextDrift=ringInterval*(.75+Math.random()*.5);
  }
+ if(ringDirection==='clockwise')d.direction=1;
+ if(ringDirection==='counterclockwise')d.direction=-1;
  const speed=(10+Math.pow(clamp(load)/100,1.25)*150)*animationSpeed*d.drift*d.direction;
  d.velocity+=(speed-d.velocity)*(1-Math.exp(-dt/.45));
  d.angle=(d.angle+d.velocity*dt)%360;
@@ -288,8 +301,7 @@ function frame(now){
   d.display+=(target-d.display)*loadBlend(d.display,target,dt);
   d.arc.style.strokeDasharray=`${d.display*5.843} 585`;
   d.arc.style.stroke=warningColor(values[key],usageOrange,usageRed)||(key==='volume'?'#b46bdc':'#40e4ef');
-  if(key==='cpu'||key==='gpu')advanceSpinner(d,valid(values[key])?d.display:null,dt);
-  else if(motion)d.angle=(d.angle+dt*9*animationSpeed)%360;
+  advanceSpinner(d,valid(values[key])?(key==='cpu'||key==='gpu'?d.display:20):null,dt);
   d.spinner.style.transform=`rotate(${d.angle}deg)`;
  }
  drawStars(dt);
@@ -301,8 +313,21 @@ function openSettings(){if(!$('settings').open)$('settings').showModal();updateS
 $('settingsButton').onclick=openSettings;$('closeSettings').onclick=()=>$('settings').close();$('doneButton').onclick=()=>$('settings').close();$('fullscreenButton').onclick=fullscreen;
 $('demoToggle').checked=demo;$('demoLoad').disabled=!demo;$('demoToggle').onchange=e=>switchDemo(e.target.checked);
 $('demoLoad').onchange=()=>poll();$('motionToggle').checked=motion;$('motionToggle').onchange=e=>{motion=e.target.checked;save()};
+function scaleInputUnit(){return networkUnit==='auto-bit'?'Mbit/s':networkUnit==='auto'?'MB/s':networkUnit}
+function syncNetworkScale(){
+ const unit=scaleInputUnit(),divisor=networkUnits[unit];
+ $('networkScaleMode').value=networkScaleMode;
+ for(const [id,bytes,label] of [['networkUploadMax',networkUploadMax,'uploadScaleUnit'],['networkDownloadMax',networkDownloadMax,'downloadScaleUnit']]){
+  $(id).value=Number((bytes/divisor).toPrecision(10));$(id).disabled=networkScaleMode!=='fixed';$(label).textContent=unit;
+ }
+}
+function redrawNetwork(){for(const key of ['up','down'])drawHistory(key)}
 function syncOptions(){
  for(const [id,value] of Object.entries({smoothing,animationSpeed,starOpacity,tempOrange,tempRed,usageOrange,usageRed}))$(id).value=value;
+ syncNetworkScale();
+ $('ringDirection').value=ringDirection;$('ringInterval').value=ringInterval;
+ $('ringIntervalValue').textContent=ringInterval.toFixed(1)+' s';
+ $('ringInterval').disabled=['clockwise','counterclockwise'].includes(ringDirection);
  $('networkUnit').value=networkUnit;
  $('starfieldToggle').checked=starfieldEnabled;
  $('starOpacityValue').textContent=Math.round(starOpacity*100)+' %';
@@ -310,7 +335,15 @@ function syncOptions(){
  $('animationSpeedValue').textContent=Math.round(animationSpeed*100)+' %';
 }
 syncOptions();
-$('networkUnit').onchange=e=>{networkUnit=e.target.value;save();rate('upValue',values.up);rate('downValue',values.down);for(const key of ['up','down'])drawHistory(key)};
+$('ringDirection').onchange=e=>{ringDirection=e.target.value;for(const d of Object.values(dials))d.nextDrift=ringInterval*(.75+Math.random()*.5);syncOptions();save()};
+$('ringInterval').oninput=e=>{ringInterval=Number(e.target.value);for(const d of Object.values(dials))d.nextDrift=Math.min(d.nextDrift,ringInterval*(.75+Math.random()*.5));syncOptions();save()};
+$('networkUnit').onchange=e=>{networkUnit=e.target.value;syncNetworkScale();save();rate('upValue',values.up);rate('downValue',values.down);redrawNetwork()};
+$('networkScaleMode').onchange=e=>{networkScaleMode=e.target.value;syncNetworkScale();save();redrawNetwork()};
+for(const id of ['networkUploadMax','networkDownloadMax'])$(id).onchange=e=>{
+ const bytes=e.target.valueAsNumber*networkUnits[scaleInputUnit()];
+ if(Number.isFinite(bytes)&&bytes>0){if(id==='networkUploadMax')networkUploadMax=Math.max(1,Math.min(1e15,bytes));else networkDownloadMax=Math.max(1,Math.min(1e15,bytes));save()}
+ syncNetworkScale();redrawNetwork();
+};
 for(const key of historyKeys)drawHistory(key);
 $('starfieldToggle').onchange=e=>{starfieldEnabled=e.target.checked;save();drawStars(0)};
 $('starOpacity').oninput=e=>{starOpacity=Number(e.target.value);syncOptions();save();drawStars(0)};

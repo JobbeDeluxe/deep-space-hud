@@ -1,8 +1,17 @@
 # Änderungen
 
-## Nach v1.1.0 · 09.11.2026
+## v1.2.0 · 09.11.2026
 
-- Netzwerk-Einheit wählbar: feste KB/s, MB/s (Standard), GB/s oder Automatik.
+- Netzwerk-Verläufe wahlweise automatisch oder mit getrennten festen Upload-/
+  Download-Grenzen; Einheitenwechsel erhält die Bandbreite, Überlaufmarkierung.
+- Drehrichtung für alle fünf Ringmarkierungen einstellbar: wechselnd, zufällig,
+  rechtsherum, linksherum. Einstellbares Wechselintervall, Standard vier Sekunden.
+
+- Mbit/s mit drei Nachkommastellen als Standard; kbit/s und Gbit/s sowie
+  Bit-Automatik ergänzt. Byte-Einheiten und Byte-Automatik bleiben verfügbar.
+- Uplink-Verlaufskurve und Messwertblock getauscht: Kurve links außen.
+
+- Netzwerk-Einheit wählbar: feste Bit-/Byte-Einheiten oder Automatik; siehe oben.
 - Downlink-Pfeil vor dem Schriftzug; eigene Upload-/Download-Verlaufskurven.
 - Beschriftete Zeitachsen für echte 60-Sekunden-Fenster; CPU/GPU-Prozentskalen
   und dynamische Netzwerk-Werteskalen, Unterbrechungen als Lücken.
