@@ -54,24 +54,12 @@ Weiterhin nicht geprüft: frische Python-/Paketinstallation, weitere Hardware,
 Mehrmonitorplatzierung und Stromverbrauch. Die älteren Linux-Ergebnisse oben
 beschreiben v1.0.0 und wurden für v1.1.0 nicht vollständig wiederholt.
 
-
-Zusätzliche Prüfung für v1.1.0 — 08.11.2026, Windows / Chrome / Playwright
-
-Bestanden:
-- Warnfarben an den exakten Grenzen 65/75 °C und 70/80 %; fehlende Werte neutral.
-- Alle Prozentzahlen einschließlich VRAM und Lautstärke erfasst.
-- Alle CPU-Wellenbalken folgen den Prozentgrenzen, auch nach deren Änderung.
-- Simulation 10 -> 95 -> 10 %: nach je einer Sekunde ca. 91 bzw. 14 % visuell.
-- Wellenhöhe bei 95 % über viermal höher als bei 10 % bei gleicher Phase.
-- Freie Markierungen: gleiche Last erhält unterschiedliche Startpositionen.
-- Hohe Last erzeugt mehr Bewegung; CPU und GPU reagieren auf ihre eigene Last.
-- Zufälliger Richtungswechsel wird über die Geschwindigkeit weich überblendet.
-- Bewegung deaktivieren hält Wellenphase und freie Markierungen an.
-- Einstellungen bleiben nach Neuladen erhalten; keine JavaScript-Laufzeitfehler.
-- Laufende Windows-Telemetrie: CPU, RAM, Laufwerk, Netzwerk, Lautstärke und GPU;
-  CPU-/GPU-Temperatur über LibreHardwareMonitor lokal empfangen.
-- ZIP-Inhalt mit Quelldateien abgeglichen; SHA-256-Prüfsumme erstellt.
-
-Weiterhin nicht geprüft: frische Python-/Paketinstallation, weitere Hardware,
-Mehrmonitorplatzierung und Stromverbrauch. Die älteren Linux-Ergebnisse oben
-beschreiben v1.0.0 und wurden für v1.1.0 nicht vollständig wiederholt.
+Sternenflug-Prüfung — 09.11.2026, Windows / Chrome / Playwright
+- Bestehende Tests für Animationen, Warnfarben und Einstellungen bestanden.
+- Hohe Last bewegt die Sterne über viermal schneller als niedrige Last.
+- Feste Anzahl von 160 Sternen; keine zusätzlichen Bibliotheken im HUD.
+- Ausschalten leert das Hintergrund-Canvas; Bewegung aus stoppt den Flug.
+- Schalter und Sichtbarkeit bleiben nach Neuladen erhalten.
+- Betriebssystem-Einstellung für reduzierte Bewegung beim Erststart geprüft.
+- 180 Demo-Frames für das README-GIF aufgenommen; niedrige und hohe Last visuell
+  geprüft. GIF enthält ausschließlich gekennzeichnete simulierte Sensorwerte.

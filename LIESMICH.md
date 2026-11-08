@@ -53,6 +53,16 @@ Python noch Internet nötig. Diese Ansicht liest keine echten PC-Sensoren aus.
   Warnfarben und Zahlen folgen den aktuellen Messwerten, unabhängig von der
   Glättung der Animation. Die Sensorabfrage erfolgt ungefähr einmal pro Sekunde.
 
+## Dezenter Sternenflug
+
+Im Hintergrund ziehen Sterne perspektivisch nach außen, wie beim Flug durchs All.
+Höhere CPU-Last erhöht sanft das Tempo und die Länge der Sternenspuren. Im Setup
+(**S** oder Zahnrad) kann **Sternenflug im Hintergrund** ausgeschaltet und die
+**Sternen-Sichtbarkeit** angepasst werden. Beide Einstellungen werden gespeichert.
+**Bewegung aktiv** aus hält auch die Sterne an; die voreingestellte reduzierte
+Bewegung des Betriebssystems wird beim ersten Start berücksichtigt. Der Effekt
+benötigt keine externen Bilder oder Dienste und verwendet eine feste Sternenzahl.
+
 ## Was die Anzeige misst
 
 | Anzeige | Bedeutung und Quelle |

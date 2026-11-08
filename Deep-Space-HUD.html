@@ -7,6 +7,7 @@
 :root{color-scheme:dark;--cyan:#40e4ef;--ice:#d8fcff;--muted:#63909b;--line:#1b5867;--pink:#d266df;--amber:#ffbf69}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#010609;color:var(--ice);font-family:Consolas,'Cascadia Mono','Liberation Mono',monospace}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 body{display:grid;place-items:center}#hud{width:1024px;height:600px;position:absolute;transform-origin:center;background:radial-gradient(ellipse at 50% 42%,#041b25 0,#020e15 48%,#01080d 80%);overflow:hidden;isolation:isolate}
+#starfield{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 #hud:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#1a63700b 1px,transparent 1px),linear-gradient(90deg,#1a63700b 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse,black,transparent 75%)}
 #hud:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:5;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,#00000012 4px);opacity:.65}
 .frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.frame path,.frame polyline,.frame line{fill:none;stroke:var(--line);stroke-width:1}.frame .bright{stroke:#39c8d9}.frame .subtle{stroke:#103440}.frame .accent{stroke:var(--pink)}
@@ -26,6 +27,7 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
 </head>
 <body>
 <main id="hud" aria-label="Deep Space PC-Statuspanel">
+<canvas id="starfield" width="1024" height="600" aria-hidden="true"></canvas>
 <svg class="frame" viewBox="0 0 1024 600" aria-hidden="true">
  <path class="bright" d="M302 16H151L128 8H39L17 30V161L27 177V416L17 434V561L39 583H165M722 16H873L896 8H985L1007 30V161L997 177V416L1007 434V561L985 583H859"/>
  <path d="M289 25H146L123 17H44L26 35V150L36 166V427L26 442V556L44 574H156M735 25H878L901 17H980L998 35V150L988 166V427L998 442V556L980 574H868"/>
@@ -61,7 +63,7 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
 <footer><div class="network"><span class="arrow">↑</span><span class="label">UPLINK</span><span class="rate" id="upValue">— <small>KB/s</small></span></div><div class="footer-center"><div class="signal"><i></i><i></i><i></i><i></i><i></i></div><span id="footerStatus">LOCAL TELEMETRY / 1 Hz</span></div><div class="network"><span class="label">DOWNLINK</span><span class="rate" id="downValue">— <small>KB/s</small></span><span class="arrow">↓</span></div></footer>
 <div id="toast">F · Vollbild &nbsp; S · Einstellungen &nbsp; D · Demo</div>
 </main>
-<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
+<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Sternenflug im Hintergrund <input type="checkbox" id="starfieldToggle"></label><label>Sternen-Sichtbarkeit <span class="setting-control"><input type="range" id="starOpacity" min="0.1" max="1" step="0.05" aria-label="Sternen-Sichtbarkeit"><output id="starOpacityValue"></output></span></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
 <script>
 'use strict';
 const $=id=>document.getElementById(id),metrics=['cpu','gpu','ram','disk','volume'];
@@ -78,6 +80,7 @@ let demo=location.protocol==='file:'||new URLSearchParams(location.search).get('
 let motion=saved.motion ?? !matchMedia('(prefers-reduced-motion: reduce)').matches;
 function option(value,fallback,min,max){return typeof value==='number'&&Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback}
 let intensity=option(saved.intensity,1,.25,2);
+let starfieldEnabled=saved.starfieldEnabled!==false,starOpacity=option(saved.starOpacity,.45,.1,1);
 let smoothing=option(saved.smoothing,.8,.3,4),animationSpeed=option(saved.animationSpeed,.5,.2,1);
 let tempOrange=Math.round(option(saved.tempOrange,65,0,149)),tempRed=Math.round(option(saved.tempRed,75,1,150));
 let usageOrange=Math.round(option(saved.usageOrange,70,0,99)),usageRed=Math.round(option(saved.usageRed,80,1,100));
@@ -93,7 +96,7 @@ let history={cpu:Array(60).fill(null),gpu:Array(60).fill(null)};
 const valid=v=>typeof v==='number'&&Number.isFinite(v);
 const clamp=v=>Math.max(0,Math.min(100,v));
 const fmt=v=>valid(v)?Math.round(v):'—';
-function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
+function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,starfieldEnabled,starOpacity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
 function fit(){const scale=Math.min(innerWidth/1024,innerHeight/600);$('hud').style.transform=`scale(${scale})`}
 addEventListener('resize',fit);fit();
 function warningColor(value,orange,red){return !valid(value)?'':value>=red?'#ff5263':value>=orange?'#ff9f43':''}
@@ -192,6 +195,34 @@ function response(){
  }
  ctx.globalAlpha=1;
 }
+// Perspective star flight, kept behind the telemetry. Fixed particle count.
+const starCanvas=$('starfield'),starContext=starCanvas.getContext('2d');
+function newStar(randomDepth=true){
+ return {x:(Math.random()-.5)*3.8,y:(Math.random()-.5)*2.4,
+  z:randomDepth?.18+Math.random()*1.6:1.78,shine:.5+Math.random()*.5};
+}
+const stars=Array.from({length:160},()=>newStar());
+function starSpeed(load){return (.035+.24*Math.pow(clamp(load)/100,1.2))*(animationSpeed/.5)}
+function drawStars(dt){
+ const ctx=starContext;ctx.clearRect(0,0,1024,600);
+ if(!starfieldEnabled)return;
+ const speed=starSpeed(visualCpu);
+ for(const star of stars){
+  if(motion)star.z-=dt*speed;
+  let x=512+star.x*420/star.z,y=270+star.y*420/star.z;
+  if(star.z<.12||x<0||x>1024||y<0||y>600){Object.assign(star,newStar(false));continue}
+  const tailZ=star.z+(motion?speed*.14:0);
+  let dx=x-(512+star.x*420/tailZ),dy=y-(270+star.y*420/tailZ);
+  const length=Math.hypot(dx,dy),limit=22;
+  if(length>limit){dx*=limit/length;dy*=limit/length}
+  const near=1-star.z/1.8;
+  // Fade behind the main readings so numbers retain their contrast.
+  const centerFade=Math.hypot((x-512)/175,(y-213)/100)<1?.25:1;
+  ctx.strokeStyle=`rgba(139,208,229,${(.18+near*.48)*star.shine*starOpacity*centerFade})`;
+  ctx.lineWidth=.65+near*.65;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x-dx,y-dy);ctx.lineTo(x+(length<.7?.7:0),y);ctx.stroke();
+ }
+}
 function frame(now){
  requestAnimationFrame(frame);
  if(now-lastFrame<32)return;
@@ -214,6 +245,7 @@ function frame(now){
   else if(motion)d.angle=(d.angle+dt*9*animationSpeed)%360;
   d.spinner.style.transform=`rotate(${d.angle}deg)`;
  }
+ drawStars(dt);
  response();
  if(now-lastHistory>=1000){lastHistory=now;for(const key of ['cpu','gpu']){history[key].push(valid(values[key])?values[key]:null);history[key].shift();drawHistory(key)}}
 }
@@ -223,11 +255,15 @@ $('settingsButton').onclick=openSettings;$('closeSettings').onclick=()=>$('setti
 $('demoToggle').checked=demo;$('demoLoad').disabled=!demo;$('demoToggle').onchange=e=>switchDemo(e.target.checked);
 $('demoLoad').onchange=()=>poll();$('motionToggle').checked=motion;$('motionToggle').onchange=e=>{motion=e.target.checked;save()};
 function syncOptions(){
- for(const [id,value] of Object.entries({smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))$(id).value=value;
+ for(const [id,value] of Object.entries({smoothing,animationSpeed,starOpacity,tempOrange,tempRed,usageOrange,usageRed}))$(id).value=value;
+ $('starfieldToggle').checked=starfieldEnabled;
+ $('starOpacityValue').textContent=Math.round(starOpacity*100)+' %';
  $('smoothingValue').textContent=smoothing.toFixed(1)+' s';
  $('animationSpeedValue').textContent=Math.round(animationSpeed*100)+' %';
 }
 syncOptions();
+$('starfieldToggle').onchange=e=>{starfieldEnabled=e.target.checked;save();drawStars(0)};
+$('starOpacity').oninput=e=>{starOpacity=Number(e.target.value);syncOptions();save();drawStars(0)};
 $('smoothing').oninput=e=>{smoothing=Number(e.target.value);syncOptions();save()};
 $('animationSpeed').oninput=e=>{animationSpeed=Number(e.target.value);syncOptions();save()};
 for(const id of ['tempOrange','tempRed','usageOrange','usageRed'])$(id).onchange=e=>{

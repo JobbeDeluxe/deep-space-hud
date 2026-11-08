@@ -1,5 +1,11 @@
 # Änderungen
 
+## Nach v1.1.0 · 09.11.2026
+
+- Dezenter perspektivischer Sternenflug mit CPU-abhängigem Tempo und Spuren.
+- Gespeicherter Schalter und Sichtbarkeitsregler im Setup; reduzierte Bewegung.
+- Animierte Demo in der README, englische Kurzbeschreibung und bereinigte Dopplung.
+
 ## v1.1.0 · 09.11.2026
 
 - Kontinuierliche Animation statt Positionssprüngen durch Laufzeit × CPU-Last.

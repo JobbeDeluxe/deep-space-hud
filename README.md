@@ -1,14 +1,24 @@
-# Deep Space HUD · Cyan Flow · v1.1.0 · v1.1.0
+# Deep Space HUD · Cyan Flow
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
-einer Cyan-HUD-Oberfläche. Die Animation reagiert auf die CPU-Last.
+einer Cyan-HUD-Oberfläche mit dezentem Sternenflug / Warp-Hintergrund.
+Sterne, CPU-Wellen und Ringmarkierungen reagieren auf die Systemlast.
+
+**A local Windows hardware monitor and sci-fi sensor panel for 1024 × 600 HDMI
+displays. CPU/GPU usage and temperatures, RAM, VRAM, storage, volume and network
+telemetry — with a subtle load-reactive starfield, configurable warning colors
+and a browser-based HUD.**
 
 **[Windows-Paket herunterladen](https://github.com/JobbeDeluxe/deep-space-hud/raw/refs/heads/main/downloads/Deep-Space-HUD-Windows.zip)**
 · [Alle Releases](https://github.com/JobbeDeluxe/deep-space-hud/releases)
 · [Vollständige Anleitung](LIESMICH.md)
 
-![Deep Space HUD – Vorschau mit ausdrücklich simulierten Demowerten](VORSCHAU-DEMO.png)
+![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo.gif)
+
+*Animierte Demo: niedrige und hohe Last, Sternenflug und Warnfarben.
+Alle Messwerte im GIF sind simuliert.*
+[Statische Vorschau](VORSCHAU-DEMO.png) · [Deutsche Anleitung](LIESMICH.md)
 
 ## Starten
 
@@ -38,22 +48,13 @@ gekennzeichnete **simulierte Demowerte** und benötigt keinen Sensorservice.
 In den Einstellungen lassen sich 10 %, 50 % und 95 % Demo-CPU-Last vergleichen,
 die Effektstärke verändern und Bewegungen ausschalten.
 
-## Neu in v1.1.0
+## Sternenflug im Hintergrund
 
-- CPU- und GPU-Markierungen bewegen sich frei und unabhängig mit sanften,
-  zufälligen Tempo- und Richtungswechseln. Höhere jeweilige Last erhöht das Tempo.
-- Große Lastsprünge werden schnell übernommen; kleine Schwankungen bleiben ruhig.
-- Die CPU-Wellen werden bei hoher Last höher und schneller.
-- Zahlen, Auslastungsringe und CPU-Wellen verwenden einstellbare Warnfarben:
-
-| Werte | Orange ab | Rot ab |
-|---|---|---|
-| CPU-/GPU-Temperatur | 65 °C | 75 °C |
-| Alle Prozentwerte, einschließlich VRAM und Lautstärke | 70 % | 80 % |
-
-Mit **S** oder dem Zahnrad lassen sich Grenzwerte, Bewegungsglättung und
-Animationstempo ändern. Einstellungen bleiben im jeweiligen Browser gespeichert.
-Details: [Änderungsverlauf](CHANGELOG.md).
+Dezente Sterne ziehen perspektivisch am HUD vorbei. Bei höherer CPU-Last fliegen
+sie schneller und ziehen längere Spuren; die Messwerte bleiben im Vordergrund.
+Unter **S / Zahnrad** lassen sich der Sternenflug ausschalten und seine
+Sichtbarkeit regeln. **Bewegung aus** stoppt auch den Sternenflug.
+Die Einstellung für reduzierte Bewegung wird beim ersten Start berücksichtigt.
 
 ## Neu in v1.1.0
 
