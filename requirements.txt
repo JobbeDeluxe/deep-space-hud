@@ -1,0 +1,2 @@
+psutil>=6.1,<8
+pycaw==20251023; sys_platform == 'win32'

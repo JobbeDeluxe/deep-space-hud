@@ -1,0 +1,8 @@
+{
+  "port": 8765,
+  "disk_path": "C:\\",
+  "network_interface": "",
+  "lhm_url": "http://127.0.0.1:8085/data.json",
+  "gpu_index": 0,
+  "sensor_overrides": {}
+}

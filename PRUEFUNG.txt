@@ -1,0 +1,33 @@
+DEEP SPACE — Prüfung am 08.11.2026
+
+Erstellungsumgebung: Linux, Python 3.12, Chromium/Playwright.
+
+Bestanden:
+- Python-Syntaxprüfung.
+- Echte CPU-, RAM- und Laufwerksmesswerte über psutil.
+- LibreHardwareMonitor-Parser mit Beispielantworten: RawValue bevorzugt,
+  Dezimalkomma, fehlende Sensoren, explizite Sensorzuordnung.
+- Veraltete Hardwarewerte werden entfernt.
+- Lokale HTTP-Schnittstelle erreichbar; beliebige Dateipfade, fremde Host-Header
+  und explizit browserseitige Cross-Site-Anfragen werden abgewiesen.
+- Browser: keine JavaScript-Laufzeitfehler in den ausgeführten Abläufen.
+- Demo, Einstellungen, Lastwahl 10 % / 95 %, reduzierte Bewegung,
+  gespeicherte Einstellungen und Vollbildschalter.
+- Größen 1024×600, 1920×1080 und 480×320 ohne abgeschnittenes Panel.
+- Demo → echte lokale CPU-Werte → Verbindungsausfall → Wiederverbindung.
+- Veraltete API-Antworten werden abgewiesen; keine Demo als Live-Ersatz.
+- Lastreaktion im Canvas: im Test 2.604 gezeichnete Pixel bei 10 % CPU,
+  7.058 bei 95 % CPU; die genaue Zahl schwankt mit der Animation.
+- pycaw 20251023: Paketverfügbarkeit und verwendete EndpointVolume-Schnittstelle
+  am veröffentlichten Python-Paket geprüft.
+- LHM-Datenfelder mit dem offiziellen HttpServer-Quellcode abgeglichen.
+
+Nicht auf echter Windows-Hardware geprüft:
+- START.cmd und die Erstinstallation unter Windows.
+- Windows-CoreAudio/pycaw, NVIDIA-Treiber und dein konkreter LHM-Sensorbaum.
+- Direkter HTML-Dateiaufruf: Die verwaltete Testbrowser-Richtlinie blockiert
+  file://-Navigation. Dieselbe HTML-Datei wurde über den lokalen Server geprüft.
+- Mehrmonitorplatzierung und Strom-/CPU-Verbrauch auf deinem PC.
+
+Die Vorschaubilder und die Animation zeigen ausdrücklich DEMO-Beispielwerte.
+Die private Download-Seite liest keine Sensoren deines PCs aus.
