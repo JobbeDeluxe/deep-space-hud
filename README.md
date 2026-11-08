@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow
+# Deep Space HUD · Cyan Flow · v1.1.0 · v1.1.0
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -38,6 +38,40 @@ gekennzeichnete **simulierte Demowerte** und benötigt keinen Sensorservice.
 In den Einstellungen lassen sich 10 %, 50 % und 95 % Demo-CPU-Last vergleichen,
 die Effektstärke verändern und Bewegungen ausschalten.
 
+## Neu in v1.1.0
+
+- CPU- und GPU-Markierungen bewegen sich frei und unabhängig mit sanften,
+  zufälligen Tempo- und Richtungswechseln. Höhere jeweilige Last erhöht das Tempo.
+- Große Lastsprünge werden schnell übernommen; kleine Schwankungen bleiben ruhig.
+- Die CPU-Wellen werden bei hoher Last höher und schneller.
+- Zahlen, Auslastungsringe und CPU-Wellen verwenden einstellbare Warnfarben:
+
+| Werte | Orange ab | Rot ab |
+|---|---|---|
+| CPU-/GPU-Temperatur | 65 °C | 75 °C |
+| Alle Prozentwerte, einschließlich VRAM und Lautstärke | 70 % | 80 % |
+
+Mit **S** oder dem Zahnrad lassen sich Grenzwerte, Bewegungsglättung und
+Animationstempo ändern. Einstellungen bleiben im jeweiligen Browser gespeichert.
+Details: [Änderungsverlauf](CHANGELOG.md).
+
+## Neu in v1.1.0
+
+- CPU- und GPU-Markierungen bewegen sich frei und unabhängig mit sanften,
+  zufälligen Tempo- und Richtungswechseln. Höhere jeweilige Last erhöht das Tempo.
+- Große Lastsprünge werden schnell übernommen; kleine Schwankungen bleiben ruhig.
+- Die CPU-Wellen werden bei hoher Last höher und schneller.
+- Zahlen, Auslastungsringe und CPU-Wellen verwenden einstellbare Warnfarben:
+
+| Werte | Orange ab | Rot ab |
+|---|---|---|
+| CPU-/GPU-Temperatur | 65 °C | 75 °C |
+| Alle Prozentwerte, einschließlich VRAM und Lautstärke | 70 % | 80 % |
+
+Mit **S** oder dem Zahnrad lassen sich Grenzwerte, Bewegungsglättung und
+Animationstempo ändern. Einstellungen bleiben im jeweiligen Browser gespeichert.
+Details: [Änderungsverlauf](CHANGELOG.md).
+
 ## Sensoren
 
 - **CPU, RAM, Laufwerk, Netzwerk:** lokale Auslesung mit `psutil`.
@@ -58,7 +92,8 @@ CPU-Kerne. Die kleinen CPU-/GPU-Kurven zeigen den Verlauf der Messwerte.
 Laufwerk, Netzwerkadapter, Ports und Sensorzuordnung stehen in `config.json`.
 Details und Fehlerhilfe findest du in [LIESMICH.md](LIESMICH.md).
 
-Browserfunktionen, Skalierung, Lastreaktion, Sensorparser und Ausfallverhalten
-wurden unter Linux geprüft. Die konkrete Windows-Hardware, CoreAudio und der
-Windows-Erststart sind noch nicht auf einem echten Windows-PC getestet.
+Die ursprünglichen Browser-, Parser- und Ausfalltests wurden unter Linux ausgeführt.
+v1.1.0 wurde zusätzlich unter Windows mit Chrome/Playwright geprüft. CPU-, GPU-,
+Temperatur- und Lautstärkewerte wurden auf einem Windows-PC live empfangen.
+Eine frische Python-Erstinstallation und weitere Hardwaremodelle sind nicht geprüft.
 Siehe [PRUEFUNG.txt](PRUEFUNG.txt).

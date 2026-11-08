@@ -37,9 +37,21 @@ Python noch Internet nötig. Diese Ansicht liest keine echten PC-Sensoren aus.
 - **F**: Vollbild ein-/ausschalten.
 - Demo-CPU-Last: automatisch, 10 %, 50 % oder 95 %. Damit kannst du den
   Unterschied zwischen ruhiger und hoher Last direkt ansehen.
-- Bewegung und Effektstärke lassen sich einstellen und werden lokal im Browser
-  gespeichert. Die Betriebssystem-Einstellung für reduzierte Bewegung wird
-  beim ersten Start berücksichtigt.
+- Bewegung, Effektstärke, Glättung und Animationstempo lassen sich einstellen
+  und werden lokal im Browser gespeichert. Die Betriebssystem-Einstellung für
+  reduzierte Bewegung wird beim ersten Start berücksichtigt.
+- Die kleinen CPU-/GPU-Markierungen laufen frei und unabhängig. Ihre Position
+  ist kein Prozentzeiger; ihre Geschwindigkeit reagiert auf die jeweilige Last.
+  Zufällige Tempo- und Richtungswechsel werden sanft überblendet.
+- Große Lastsprünge reagieren schnell, kleine Schwankungen werden geglättet.
+- Temperaturzahlen werden standardmäßig ab **65 °C orange**, ab **75 °C rot**.
+  Prozentzahlen und Auslastungsringe werden ab **70 % orange**, ab **80 % rot**;
+  das gilt auch für VRAM und Lautstärke. Die gesamte CPU-Welle folgt denselben
+  Prozentgrenzen. Unterhalb der Grenzen bleiben die normalen Farben erhalten.
+- Im Setup können beide Warnstufen getrennt für Temperaturen und Prozentwerte
+  eingestellt werden. Die rote Grenze bleibt immer über der orangefarbenen.
+  Warnfarben und Zahlen folgen den aktuellen Messwerten, unabhängig von der
+  Glättung der Animation. Die Sensorabfrage erfolgt ungefähr einmal pro Sekunde.
 
 ## Was die Anzeige misst
 
@@ -150,5 +162,7 @@ dem Internet. Es wird keine Software automatisch als Administrator gestartet.
 
 Browser-Darstellung und Bedienung, Demo-/Live-Wechsel, Ausfallverhalten,
 Lastreaktion und Sensorparser werden in der mitgelieferten `PRUEFUNG.txt`
-dokumentiert. Ein Test der Windows-Audioschnittstelle und deiner konkreten
-Temperatur-/GPU-Sensoren war in der Linux-Erstellungsumgebung nicht möglich.
+dokumentiert. Für v1.1.0 wurden zusätzlich die Animationen, Warnfarben und
+gespeicherten Einstellungen unter Windows/Chrome geprüft. Lokale Windows-
+Telemetrie einschließlich Lautstärke und LibreHardwareMonitor-Temperaturen
+wurde live empfangen. Eine frische Erstinstallation bleibt ungeprüft.

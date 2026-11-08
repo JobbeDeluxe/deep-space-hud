@@ -13,13 +13,14 @@ body{display:grid;place-items:center}#hud{width:1024px;height:600px;position:abs
 header{position:absolute;top:29px;left:44px;right:44px;height:42px;display:flex;align-items:center;justify-content:space-between}.identity{display:flex;gap:10px;align-items:center;font-size:10px;letter-spacing:1.7px;color:var(--muted)}.logo{width:24px;height:24px;display:grid;place-items:center;color:var(--cyan);font-size:26px}.brand{position:absolute;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}.brand strong{font-size:23px;font-weight:500;letter-spacing:8px;margin-left:8px;color:var(--ice)}.brand small{display:block;font-size:8px;letter-spacing:4px;color:var(--cyan);margin-top:5px}.topright{display:flex;align-items:center;gap:17px;font-size:10px;letter-spacing:1px}.vram{color:var(--muted)}.vram b{color:var(--cyan);font-weight:400;margin-left:8px}
 #settingsButton{width:28px;height:28px;color:var(--muted);background:none;border:1px solid #17414e;font-size:17px;z-index:6}#settingsButton:hover{color:var(--cyan);border-color:var(--cyan)}
 .unit{position:absolute;text-align:center;width:224px;height:254px;top:98px}.cpu{left:65px}.gpu{right:65px}.unit-heading{display:flex;justify-content:space-between;margin:0 12px;color:var(--muted);font-size:9px;letter-spacing:1.5px}.unit-heading b{color:var(--cyan);font-weight:400;font-size:10px}.dial{width:218px;height:218px;position:relative;margin:2px auto 0}.dial svg{width:100%;height:100%;overflow:visible}.dial circle{fill:none}.track{stroke:#0f3742;stroke-width:5}.ticks{stroke:#337482;stroke-width:4;stroke-dasharray:1 9;opacity:.7}.arc{stroke:var(--cyan);stroke-width:5;stroke-linecap:butt;transform:rotate(-90deg);transform-origin:110px 110px;filter:drop-shadow(0 0 4px #28d9e54d)}.spinner{transform-origin:110px 110px;stroke:#2ab3c5;stroke-width:1;stroke-dasharray:70 570;opacity:.7}.inner{stroke:#124957;stroke-width:1;stroke-dasharray:160 40 45 100}.dial-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:1px}.dial-label{font-size:15px;letter-spacing:4px;color:#9ae5eb;margin-left:4px}.dial-number{font-size:49px;font-weight:400;letter-spacing:-3px;line-height:1.23;font-variant-numeric:tabular-nums;text-shadow:0 0 16px #66e5ff21}.dial-number span{font-size:20px;letter-spacing:0;margin-left:3px;color:#75b5c0}.dial-sub{font-size:8px;letter-spacing:2px;color:var(--muted);margin-top:5px}.temperature{position:absolute;bottom:0;left:50%;transform:translateX(-50%);padding:6px 16px;border-top:1px solid #307084;border-bottom:1px solid #143a48;background:#03141e;white-space:nowrap;font-size:13px;letter-spacing:1px;color:#a9e8ed}.temperature small{font-size:8px;color:var(--muted);margin-right:10px}
-.center{position:absolute;top:110px;left:347px;width:330px;height:229px;text-align:center}.date{font-size:12px;letter-spacing:3px;color:#91c7d0;margin-top:22px}.time{font-size:58px;font-weight:400;letter-spacing:1px;line-height:1.18;font-variant-numeric:tabular-nums;margin-top:6px;text-shadow:0 0 25px #70e3ff20}.time .sec{font-size:19px;color:#69a6b6;margin-left:6px;vertical-align:12px}.state{display:flex;align-items:center;justify-content:center;gap:7px;font-size:9px;letter-spacing:2px;color:var(--cyan);margin-top:8px}.status-dot{width:4px;height:4px;background:currentColor;box-shadow:0 0 7px currentColor}.response-label{position:absolute;top:174px;left:29px;right:29px;display:flex;justify-content:space-between;font-size:8px;color:var(--muted);letter-spacing:1.3px}#response{position:absolute;left:29px;top:186px;width:272px;height:30px}
+.center{position:absolute;top:110px;left:347px;width:330px;height:229px;text-align:center}.date{font-size:12px;letter-spacing:3px;color:#91c7d0;margin-top:22px}.time{font-size:58px;font-weight:400;letter-spacing:1px;line-height:1.18;font-variant-numeric:tabular-nums;margin-top:6px;text-shadow:0 0 25px #70e3ff20}.time .sec{font-size:19px;color:#69a6b6;margin-left:6px;vertical-align:12px}.state{display:flex;align-items:center;justify-content:center;gap:7px;font-size:9px;letter-spacing:2px;color:var(--cyan);margin-top:8px}.status-dot{width:4px;height:4px;background:currentColor;box-shadow:0 0 7px currentColor}.response-label{position:absolute;top:174px;left:29px;right:29px;display:flex;justify-content:space-between;font-size:8px;color:var(--muted);letter-spacing:1.3px}#response{position:absolute;left:29px;top:186px;width:272px;height:36px}
 .divider{position:absolute;top:357px;left:48px;right:48px;display:flex;align-items:center;gap:12px;color:#3a7483;font-size:8px;letter-spacing:2px}.divider:before,.divider:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#1f5261)}.divider:after{transform:rotate(180deg)}
 .small-unit{position:absolute;top:379px;width:168px;height:148px;text-align:center}.ram{left:169px}.disk{left:428px}.volume{left:687px}.small-unit .dial{width:142px;height:142px;margin:0 auto}.small-unit .dial-number{font-size:32px;letter-spacing:-1.5px;line-height:1.3}.small-unit .dial-number span{font-size:15px}.small-unit .dial-label{font-size:11px;letter-spacing:2px;margin-left:2px}.small-unit .dial-sub{font-size:7px;letter-spacing:1px;margin-top:2px}.small-unit .arc{stroke-width:6}.small-unit .ticks{opacity:.45}.small-unit .tag{position:absolute;top:64px;font-size:8px;color:#396778;writing-mode:vertical-rl;letter-spacing:2px}.small-unit .tag.right{right:0}.small-unit .tag.left{left:0;transform:rotate(180deg)}
 .side-history{position:absolute;top:408px;width:91px;height:89px}.side-history.left{left:54px}.side-history.right{right:54px}.history-label{display:flex;justify-content:space-between;font-size:8px;letter-spacing:1px;color:#578996}.history-plot{width:91px;height:47px;margin-top:9px;border-bottom:1px solid #1a4555}.history-foot{color:#3c6775;font-size:7px;letter-spacing:1px;margin-top:6px}
 footer{position:absolute;bottom:34px;left:51px;right:51px;display:flex;align-items:center;justify-content:space-between}.network{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:1px}.network .arrow{color:var(--cyan);font-size:20px}.network .label{color:#70a8b4;font-size:9px}.network .rate{color:var(--ice);font-size:15px;font-variant-numeric:tabular-nums;min-width:133px}.network .rate small{font-size:9px;color:var(--muted)}.footer-center{text-align:center;color:#427483;font-size:7px;letter-spacing:2px;position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap}.footer-center .signal{display:flex;gap:3px;justify-content:center;margin-bottom:7px}.signal i{display:block;width:18px;height:2px;background:#123c49}.signal i:nth-child(2),.signal i:nth-child(3){background:#3596a7}.signal i:nth-child(4){background:var(--cyan)}
 #banner{position:absolute;top:77px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:2px;color:var(--amber);white-space:nowrap;z-index:6}#toast{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-size:9px;background:#071822ed;color:#8bb6c1;padding:6px 12px;white-space:nowrap;z-index:7;transition:opacity .5s}#toast.hidden{opacity:0;pointer-events:none}
 dialog{color:#cceaf0;background:#06131cef;border:1px solid #276475;padding:25px 28px;width:min(480px,94vw);box-shadow:0 20px 100px #000b;z-index:20;max-height:94vh;overflow:auto}dialog::backdrop{background:#000a;backdrop-filter:blur(5px)}dialog h2{font-size:17px;letter-spacing:2px;margin:0 0 20px;font-weight:400}dialog label{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin:18px 0;gap:15px}dialog button{padding:9px 12px;border:1px solid #2b6170;background:#092532;color:#c7f8ff}dialog select{background:#092532;color:var(--ice);border:1px solid #2b6170;padding:6px;font-size:11px}dialog input{accent-color:var(--cyan)}dialog p{font-size:11px;line-height:1.7;color:#84a9b5}dialog a{color:var(--cyan)}.dialog-actions{display:flex;justify-content:space-between;margin-top:22px;gap:10px}#sourceInfo{white-space:pre-wrap;font-size:10px;color:#85aebc;line-height:1.8;border-top:1px solid #194351;padding-top:12px}#closeSettings{float:right;background:none;border:0;padding:0;font-size:22px;line-height:1}
+.thresholds{border:1px solid #194351;margin:18px 0;padding:4px 12px}.thresholds legend{font-size:11px;color:#9ae5eb;padding:0 6px}.thresholds label{margin:12px 0}.thresholds input{width:68px;background:#092532;color:var(--ice);border:1px solid #2b6170;padding:5px}dialog output{min-width:45px;text-align:right;color:#9ae5eb}.setting-control{display:flex;align-items:center;gap:8px}.setting-control input[type=range]{width:120px}.dial-number b,#cpuTemp,#gpuTemp,#vramValue{transition:color .35s}.threshold-orange{color:#ff9f43}.threshold-red{color:#ff5263}
 body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[open]){cursor:auto}
 </style>
 </head>
@@ -49,7 +50,7 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
  <div class="unit-heading"><span>01 / PROCESSOR</span><b>CPU</b></div>
  <div class="dial"></div><div class="temperature"><small>TEMP</small><span id="cpuTemp">— °C</span></div>
 </section>
-<section class="center" aria-label="Uhrzeit und Systemstatus"><div class="date" id="date">—</div><div class="time"><span id="clock">00:00</span><span id="seconds" class="sec">00</span></div><div class="state" id="state"><span class="status-dot"></span><span id="statusText">VERBINDE</span></div><div class="response-label"><span>CPU RESPONSE</span><span id="loadMode">NO SIGNAL</span></div><canvas id="response" width="544" height="60" aria-label="Künstlerische Animation, Stärke folgt der CPU-Last"></canvas></section>
+<section class="center" aria-label="Uhrzeit und Systemstatus"><div class="date" id="date">—</div><div class="time"><span id="clock">00:00</span><span id="seconds" class="sec">00</span></div><div class="state" id="state"><span class="status-dot"></span><span id="statusText">VERBINDE</span></div><div class="response-label"><span>CPU RESPONSE</span><span id="loadMode">NO SIGNAL</span></div><canvas id="response" width="544" height="72" aria-label="Künstlerische Animation, Stärke folgt der CPU-Last"></canvas></section>
 <section class="unit gpu" data-metric="gpu" aria-label="GPU-Auslastung"><div class="unit-heading"><span>02 / GRAPHICS</span><b>GPU</b></div><div class="dial"></div><div class="temperature"><small>TEMP</small><span id="gpuTemp">— °C</span></div></section>
 <div class="divider">RESOURCE ARRAY</div>
 <div class="side-history left"><div class="history-label"><span>CPU</span><span>60s</span></div><canvas id="cpuHistory" class="history-plot" width="182" height="94" aria-label="CPU-Verlauf der letzten 60 Sekunden"></canvas><div class="history-foot">LOAD HISTORY</div></div>
@@ -60,7 +61,7 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
 <footer><div class="network"><span class="arrow">↑</span><span class="label">UPLINK</span><span class="rate" id="upValue">— <small>KB/s</small></span></div><div class="footer-center"><div class="signal"><i></i><i></i><i></i><i></i><i></i></div><span id="footerStatus">LOCAL TELEMETRY / 1 Hz</span></div><div class="network"><span class="label">DOWNLINK</span><span class="rate" id="downValue">— <small>KB/s</small></span><span class="arrow">↓</span></div></footer>
 <div id="toast">F · Vollbild &nbsp; S · Einstellungen &nbsp; D · Demo</div>
 </main>
-<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
+<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
 <script>
 'use strict';
 const $=id=>document.getElementById(id),metrics=['cpu','gpu','ram','disk','volume'];
@@ -72,25 +73,38 @@ for(const key of metrics){
  el.innerHTML=`<svg viewBox="0 0 220 220" aria-hidden="true"><circle class="ticks" cx="110" cy="110" r="103"/><circle class="spinner" cx="110" cy="110" r="107"/><circle class="track" cx="110" cy="110" r="93"/><circle class="arc" cx="110" cy="110" r="93" stroke-dasharray="0 585"/><circle class="inner" cx="110" cy="110" r="82"/></svg><div class="dial-content"><div class="dial-label">${names[key]}</div><div class="dial-number"><b style="font-weight:400" id="${key}Value">—</b><span>%</span></div><div class="dial-sub" id="${key}Sub">${descriptions[key]}</div></div>`;
  dials[key]={arc:el.querySelector('.arc'),spinner:el.querySelector('.spinner'),number:$(key+'Value'),display:0};
 }
-let saved={};try{saved=JSON.parse(localStorage.getItem('deep-space-options')||'{}')}catch{}
+let saved={};try{const parsed=JSON.parse(localStorage.getItem('deep-space-options')||'{}');if(parsed&&typeof parsed==='object')saved=parsed}catch{}
 let demo=location.protocol==='file:'||new URLSearchParams(location.search).get('demo')==='1';
 let motion=saved.motion ?? !matchMedia('(prefers-reduced-motion: reduce)').matches;
-let intensity=Number(saved.intensity)||1;
+function option(value,fallback,min,max){return typeof value==='number'&&Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback}
+let intensity=option(saved.intensity,1,.25,2);
+let smoothing=option(saved.smoothing,.8,.3,4),animationSpeed=option(saved.animationSpeed,.5,.2,1);
+let tempOrange=Math.round(option(saved.tempOrange,65,0,149)),tempRed=Math.round(option(saved.tempRed,75,1,150));
+let usageOrange=Math.round(option(saved.usageOrange,70,0,99)),usageRed=Math.round(option(saved.usageRed,80,1,100));
+if(tempOrange>=tempRed){tempOrange=65;tempRed=75}
+if(usageOrange>=usageRed){usageOrange=70;usageRed=80}
+let wavePhase=0,wavePhaseSecondary=0;
+for(const key of metrics){
+ Object.assign(dials[key],{angle:Math.random()*360,velocity:0,drift:.8+Math.random()*.4,
+  direction:Math.random()<.5?-1:1,nextDrift:2+Math.random()*3});
+}
 let values={},sources={},live=false,lastFrame=0,lastHistory=0,requestId=0,visualCpu=0;
 let history={cpu:Array(60).fill(null),gpu:Array(60).fill(null)};
 const valid=v=>typeof v==='number'&&Number.isFinite(v);
 const clamp=v=>Math.max(0,Math.min(100,v));
 const fmt=v=>valid(v)?Math.round(v):'—';
-function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity}))}catch{}}
+function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
 function fit(){const scale=Math.min(innerWidth/1024,innerHeight/600);$('hud').style.transform=`scale(${scale})`}
 addEventListener('resize',fit);fit();
-function temperature(id,value){$(id).textContent=fmt(value)+' °C';$(id).style.color=valid(value)&&value>=85?'#ffbf69':''}
+function warningColor(value,orange,red){return !valid(value)?'':value>=red?'#ff5263':value>=orange?'#ff9f43':''}
+function temperature(id,value){$(id).textContent=fmt(value)+' °C';$(id).style.color=warningColor(value,tempOrange,tempRed)}
 function rate(id,value){const unit=valid(value)&&value>=1e6?'MB/s':'KB/s';const v=valid(value)?(value/(unit==='MB/s'?1e6:1000)).toFixed(1):'—';$(id).innerHTML=`${v} <small>${unit}</small>`}
 function applyValues(data,connected){
  values=data;live=connected;
- for(const k of metrics){dials[k].number.textContent=fmt(data[k]);dials[k].number.style.color=valid(data[k])&&data[k]>=90&&k!=='volume'?'#ffbf69':''}
+ for(const k of metrics){dials[k].number.textContent=fmt(data[k]);dials[k].number.style.color=warningColor(data[k],usageOrange,usageRed)}
  temperature('cpuTemp',data.cpu_temp);temperature('gpuTemp',data.gpu_temp);
  $('vramValue').textContent=fmt(data.vram)+(valid(data.vram)?'%':'');
+ $('vramValue').style.color=warningColor(data.vram,usageOrange,usageRed);
  rate('upValue',data.up);rate('downValue',data.down);
  $('volumeSub').textContent=data.muted?'STUMMGESCHALTET':'LAUTSTÄRKE';
  $('diskTag').textContent=data.disk_path||'SYSTEM DISK';
@@ -144,16 +158,39 @@ function drawHistory(key){
  ctx.strokeStyle=key==='cpu'?'#37cbdc':'#aa6bd1';ctx.lineWidth=2;ctx.beginPath();let pen=false;
  history[key].forEach((v,i)=>{if(!valid(v)){pen=false;return}const x=i*182/59,y=90-clamp(v)*.82;if(pen)ctx.lineTo(x,y);else{ctx.moveTo(x,y);pen=true}});ctx.stroke();
 }
-function response(t){
- const c=$('response'),ctx=c.getContext('2d');ctx.clearRect(0,0,544,60);
- const hasCpu=valid(values.cpu),load=visualCpu/100;
- for(let i=0;i<46;i++){
-  const wave=motion?(.5+.25*Math.sin(t*(1.5+load*2)+i*.7)+.25*Math.sin(t*2.2-i*.43)):.55;
-  const shape=.45+.55*Math.sin((i+.5)/46*Math.PI);
-  const h=hasCpu?Math.min(58,4+wave*shape*(8+load*47)*intensity):2;
-  ctx.fillStyle=hasCpu?(load>.85&&i>35?'#c77bce':`rgba(55,215,235,${.28+wave*.7})`):'#153c49';
-  ctx.fillRect(i*12,60-h,6,h);
+// Keep small fluctuations calm, but follow large steps in either direction quickly.
+function loadBlend(current,target,dt){
+ const gap=Math.abs(target-current);
+ const tau=Math.max(.08,Math.min(smoothing,1)/(1+gap/8));
+ return motion?1-Math.exp(-dt/tau):1;
+}
+// Free motion: integrate velocity, with independent smooth random drift per dial.
+// Load affects speed only; it never determines the marker's position.
+function advanceSpinner(d,load,dt){
+ if(!motion||!valid(load))return;
+ d.nextDrift-=dt;
+ if(d.nextDrift<=0){
+  d.drift=.7+Math.random()*.6;
+  if(Math.random()<.3)d.direction*=-1;
+  d.nextDrift=2+Math.random()*3;
  }
+ const speed=(10+Math.pow(clamp(load)/100,1.25)*150)*animationSpeed*d.drift*d.direction;
+ d.velocity+=(speed-d.velocity)*(1-Math.exp(-dt/.45));
+ d.angle=(d.angle+d.velocity*dt)%360;
+}
+function response(){
+ const c=$('response'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+ const hasCpu=valid(values.cpu),load=visualCpu/100;
+ const barColor=warningColor(values.cpu,usageOrange,usageRed)||'#37d7eb';
+ for(let i=0;i<46;i++){
+  const wave=motion?(.5+.25*Math.sin(wavePhase+i*.7)+.25*Math.sin(wavePhaseSecondary-i*.43)):.55;
+  const shape=.45+.55*Math.sin((i+.5)/46*Math.PI);
+  const h=hasCpu?Math.min(c.height-2,2+(.25+.75*wave)*shape*(3+Math.pow(load,.85)*78)*intensity):2;
+  ctx.fillStyle=hasCpu?barColor:'#153c49';
+  ctx.globalAlpha=hasCpu?.28+wave*.7:1;
+  ctx.fillRect(i*12,c.height-h,6,h);
+ }
+ ctx.globalAlpha=1;
 }
 function frame(now){
  requestAnimationFrame(frame);
@@ -161,16 +198,23 @@ function frame(now){
  const dt=Math.min((now-lastFrame)/1000,.15);lastFrame=now;
  const time=new Date();$('date').textContent=time.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
  $('clock').textContent=time.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});$('seconds').textContent=String(time.getSeconds()).padStart(2,'0');
- const t=now/1000;
- visualCpu+=(valid(values.cpu)?clamp(values.cpu)-visualCpu:-visualCpu)*Math.min(1,dt*4);
+ // Integrate phase and angle; changing load must never change elapsed history.
+ const cpuTarget=valid(values.cpu)?clamp(values.cpu):0;
+ visualCpu+=(cpuTarget-visualCpu)*loadBlend(visualCpu,cpuTarget,dt);
+ if(motion){
+  wavePhase=(wavePhase+dt*(1.2+Math.pow(visualCpu/100,1.3)*10)*animationSpeed)%(Math.PI*2);
+  wavePhaseSecondary=(wavePhaseSecondary+dt*(1.6+visualCpu/100*7)*animationSpeed)%(Math.PI*2);
+ }
  for(const key of metrics){
   const d=dials[key],target=valid(values[key])?clamp(values[key]):0;
-  d.display+= (target-d.display)*(motion?Math.min(1,dt*5):1);
+  d.display+=(target-d.display)*loadBlend(d.display,target,dt);
   d.arc.style.strokeDasharray=`${d.display*5.843} 585`;
-  d.arc.style.stroke=key==='volume'?'#b46bdc':d.display>=90?'#ffbf69':'#40e4ef';
-  d.spinner.style.transform=`rotate(${motion?t*(key==='cpu'?6+visualCpu*.22:9)*(key==='gpu'?-1:1):0}deg)`;
+  d.arc.style.stroke=warningColor(values[key],usageOrange,usageRed)||(key==='volume'?'#b46bdc':'#40e4ef');
+  if(key==='cpu'||key==='gpu')advanceSpinner(d,valid(values[key])?d.display:null,dt);
+  else if(motion)d.angle=(d.angle+dt*9*animationSpeed)%360;
+  d.spinner.style.transform=`rotate(${d.angle}deg)`;
  }
- response(t);
+ response();
  if(now-lastHistory>=1000){lastHistory=now;for(const key of ['cpu','gpu']){history[key].push(valid(values[key])?values[key]:null);history[key].shift();drawHistory(key)}}
 }
 async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch{showToast('Vollbild über F11 im Browser aktivieren.')}}
@@ -178,6 +222,24 @@ function openSettings(){if(!$('settings').open)$('settings').showModal();updateS
 $('settingsButton').onclick=openSettings;$('closeSettings').onclick=()=>$('settings').close();$('doneButton').onclick=()=>$('settings').close();$('fullscreenButton').onclick=fullscreen;
 $('demoToggle').checked=demo;$('demoLoad').disabled=!demo;$('demoToggle').onchange=e=>switchDemo(e.target.checked);
 $('demoLoad').onchange=()=>poll();$('motionToggle').checked=motion;$('motionToggle').onchange=e=>{motion=e.target.checked;save()};
+function syncOptions(){
+ for(const [id,value] of Object.entries({smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))$(id).value=value;
+ $('smoothingValue').textContent=smoothing.toFixed(1)+' s';
+ $('animationSpeedValue').textContent=Math.round(animationSpeed*100)+' %';
+}
+syncOptions();
+$('smoothing').oninput=e=>{smoothing=Number(e.target.value);syncOptions();save()};
+$('animationSpeed').oninput=e=>{animationSpeed=Number(e.target.value);syncOptions();save()};
+for(const id of ['tempOrange','tempRed','usageOrange','usageRed'])$(id).onchange=e=>{
+ const value=e.target.valueAsNumber,isTemp=id.startsWith('temp'),max=isTemp?150:100;
+ if(!Number.isFinite(value)){syncOptions();return}
+ const next=Math.round(Math.max(id.endsWith('Orange')?0:1,Math.min(id.endsWith('Orange')?max-1:max,value)));
+ if(id==='tempOrange'){tempOrange=next;tempRed=Math.max(tempRed,next+1)}
+ if(id==='tempRed'){tempRed=next;tempOrange=Math.min(tempOrange,next-1)}
+ if(id==='usageOrange'){usageOrange=next;usageRed=Math.max(usageRed,next+1)}
+ if(id==='usageRed'){usageRed=next;usageOrange=Math.min(usageOrange,next-1)}
+ syncOptions();save();applyValues(values,live);
+};
 $('intensity').value=intensity;$('intensity').oninput=e=>{intensity=Number(e.target.value);save()};
 addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||e.repeat||['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))return;const k=e.key.toLowerCase();if(k==='f'){e.preventDefault();fullscreen()}if(k==='s'){$('settings').open?$('settings').close():openSettings()}if(k==='d')switchDemo(!demo)});
 let idleTimer,toastTimer;
