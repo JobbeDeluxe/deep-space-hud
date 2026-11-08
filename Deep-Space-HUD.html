@@ -22,6 +22,8 @@ footer{position:absolute;bottom:34px;left:51px;right:51px;display:flex;align-ite
 #banner{position:absolute;top:77px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:2px;color:var(--amber);white-space:nowrap;z-index:6}#toast{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-size:9px;background:#071822ed;color:#8bb6c1;padding:6px 12px;white-space:nowrap;z-index:7;transition:opacity .5s}#toast.hidden{opacity:0;pointer-events:none}
 dialog{color:#cceaf0;background:#06131cef;border:1px solid #276475;padding:25px 28px;width:min(480px,94vw);box-shadow:0 20px 100px #000b;z-index:20;max-height:94vh;overflow:auto}dialog::backdrop{background:#000a;backdrop-filter:blur(5px)}dialog h2{font-size:17px;letter-spacing:2px;margin:0 0 20px;font-weight:400}dialog label{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin:18px 0;gap:15px}dialog button{padding:9px 12px;border:1px solid #2b6170;background:#092532;color:#c7f8ff}dialog select{background:#092532;color:var(--ice);border:1px solid #2b6170;padding:6px;font-size:11px}dialog input{accent-color:var(--cyan)}dialog p{font-size:11px;line-height:1.7;color:#84a9b5}dialog a{color:var(--cyan)}.dialog-actions{display:flex;justify-content:space-between;margin-top:22px;gap:10px}#sourceInfo{white-space:pre-wrap;font-size:10px;color:#85aebc;line-height:1.8;border-top:1px solid #194351;padding-top:12px}#closeSettings{float:right;background:none;border:0;padding:0;font-size:22px;line-height:1}
 .thresholds{border:1px solid #194351;margin:18px 0;padding:4px 12px}.thresholds legend{font-size:11px;color:#9ae5eb;padding:0 6px}.thresholds label{margin:12px 0}.thresholds input{width:68px;background:#092532;color:var(--ice);border:1px solid #2b6170;padding:5px}dialog output{min-width:45px;text-align:right;color:#9ae5eb}.setting-control{display:flex;align-items:center;gap:8px}.setting-control input[type=range]{width:120px}.dial-number b,#cpuTemp,#gpuTemp,#vramValue{transition:color .35s}.threshold-orange{color:#ff9f43}.threshold-red{color:#ff5263}
+.small-unit .dial{width:134px;height:134px}.side-history{top:402px;width:110px;height:99px}.side-history.left{left:45px}.side-history.right{right:45px}.history-plot{width:110px;height:70px;margin-top:4px;border:0}.history-foot{margin-top:2px}
+footer{bottom:22px;height:48px}.network{width:374px;gap:7px;letter-spacing:.4px}.network .arrow{font-size:19px;width:12px;flex-shrink:0}.network .label{font-size:8px;width:54px;flex-shrink:0}.network .rate{font-size:12px;min-width:0;width:115px;flex-shrink:0;white-space:nowrap}.network .rate small{font-size:8px}.network-history{width:165px;height:48px;flex-shrink:0}.footer-center{font-size:6px;letter-spacing:1px;width:120px}.footer-center .signal{gap:3px}.footer-center .signal i{width:14px}
 body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[open]){cursor:auto}
 </style>
 </head>
@@ -31,7 +33,7 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
 <svg class="frame" viewBox="0 0 1024 600" aria-hidden="true">
  <path class="bright" d="M302 16H151L128 8H39L17 30V161L27 177V416L17 434V561L39 583H165M722 16H873L896 8H985L1007 30V161L997 177V416L1007 434V561L985 583H859"/>
  <path d="M289 25H146L123 17H44L26 35V150L36 166V427L26 442V556L44 574H156M735 25H878L901 17H980L998 35V150L988 166V427L998 442V556L980 574H868"/>
- <path d="M52 82H290L308 100H716L734 82H972M52 532H354L368 543H656L670 532H972"/>
+ <path d="M52 82H290L308 100H716L734 82H972M52 524H354L368 535H656L670 524H972"/>
  <path d="M347 127L365 109H659L677 127V315L659 333H365L347 315Z"/><path class="subtle" d="M354 134L371 117H653M670 290V309L653 326H371"/>
  <path class="bright" d="M347 155V127L365 109H395M629 109H659L677 127V155M347 289V315L365 333H395M629 333H659L677 315V289"/>
  <path class="accent" d="M493 109H531"/><path class="bright" d="M474 333H550"/>
@@ -55,15 +57,15 @@ body.idle{cursor:none}body.idle #settingsButton{opacity:0}body.idle:has(dialog[o
 <section class="center" aria-label="Uhrzeit und Systemstatus"><div class="date" id="date">—</div><div class="time"><span id="clock">00:00</span><span id="seconds" class="sec">00</span></div><div class="state" id="state"><span class="status-dot"></span><span id="statusText">VERBINDE</span></div><div class="response-label"><span>CPU RESPONSE</span><span id="loadMode">NO SIGNAL</span></div><canvas id="response" width="544" height="72" aria-label="Künstlerische Animation, Stärke folgt der CPU-Last"></canvas></section>
 <section class="unit gpu" data-metric="gpu" aria-label="GPU-Auslastung"><div class="unit-heading"><span>02 / GRAPHICS</span><b>GPU</b></div><div class="dial"></div><div class="temperature"><small>TEMP</small><span id="gpuTemp">— °C</span></div></section>
 <div class="divider">RESOURCE ARRAY</div>
-<div class="side-history left"><div class="history-label"><span>CPU</span><span>60s</span></div><canvas id="cpuHistory" class="history-plot" width="182" height="94" aria-label="CPU-Verlauf der letzten 60 Sekunden"></canvas><div class="history-foot">LOAD HISTORY</div></div>
+<div class="side-history left"><div class="history-label"><span>CPU</span><span>60s</span></div><canvas id="cpuHistory" class="history-plot" width="220" height="140" aria-label="CPU-Verlauf der letzten 60 Sekunden"></canvas><div class="history-foot">LOAD HISTORY</div></div>
 <section class="small-unit ram" data-metric="ram" aria-label="Arbeitsspeicher belegt"><span class="tag left">03 / MEMORY</span><div class="dial"></div><span class="tag right">RAM USAGE</span></section>
 <section class="small-unit disk" data-metric="disk" aria-label="Laufwerk belegt"><span class="tag left">04 / STORAGE</span><div class="dial"></div><span class="tag right" id="diskTag">SYSTEM DISK</span></section>
 <section class="small-unit volume" data-metric="volume" aria-label="Windows-Lautstärke"><span class="tag left">05 / AUDIO</span><div class="dial"></div><span class="tag right">MASTER LEVEL</span></section>
-<div class="side-history right"><div class="history-label"><span>GPU</span><span>60s</span></div><canvas id="gpuHistory" class="history-plot" width="182" height="94" aria-label="GPU-Verlauf der letzten 60 Sekunden"></canvas><div class="history-foot">LOAD HISTORY</div></div>
-<footer><div class="network"><span class="arrow">↑</span><span class="label">UPLINK</span><span class="rate" id="upValue">— <small>KB/s</small></span></div><div class="footer-center"><div class="signal"><i></i><i></i><i></i><i></i><i></i></div><span id="footerStatus">LOCAL TELEMETRY / 1 Hz</span></div><div class="network"><span class="label">DOWNLINK</span><span class="rate" id="downValue">— <small>KB/s</small></span><span class="arrow">↓</span></div></footer>
+<div class="side-history right"><div class="history-label"><span>GPU</span><span>60s</span></div><canvas id="gpuHistory" class="history-plot" width="220" height="140" aria-label="GPU-Verlauf der letzten 60 Sekunden"></canvas><div class="history-foot">LOAD HISTORY</div></div>
+<footer><div class="network"><span class="arrow">↑</span><span class="label">UPLINK</span><span class="rate" id="upValue">— <small>MB/s</small></span><canvas id="upHistory" class="network-history" width="330" height="96" aria-label="Upload-Verlauf der letzten 60 Sekunden"></canvas></div><div class="footer-center"><div class="signal"><i></i><i></i><i></i><i></i><i></i></div><span id="footerStatus">LOCAL TELEMETRY / 1 Hz</span></div><div class="network"><span class="arrow">↓</span><span class="label">DOWNLINK</span><span class="rate" id="downValue">— <small>MB/s</small></span><canvas id="downHistory" class="network-history" width="330" height="96" aria-label="Download-Verlauf der letzten 60 Sekunden"></canvas></div></footer>
 <div id="toast">F · Vollbild &nbsp; S · Einstellungen &nbsp; D · Demo</div>
 </main>
-<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Sternenflug im Hintergrund <input type="checkbox" id="starfieldToggle"></label><label>Sternen-Sichtbarkeit <span class="setting-control"><input type="range" id="starOpacity" min="0.1" max="1" step="0.05" aria-label="Sternen-Sichtbarkeit"><output id="starOpacityValue"></output></span></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
+<dialog id="settings" aria-labelledby="settingsTitle"><button id="closeSettings" aria-label="Einstellungen schließen">×</button><h2 id="settingsTitle">DEEP SPACE / SETUP</h2><label>Demo mit Beispielwerten <input type="checkbox" id="demoToggle"></label><label>Bewegung aktiv <input type="checkbox" id="motionToggle" checked></label><label>Sternenflug im Hintergrund <input type="checkbox" id="starfieldToggle"></label><label>Sternen-Sichtbarkeit <span class="setting-control"><input type="range" id="starOpacity" min="0.1" max="1" step="0.05" aria-label="Sternen-Sichtbarkeit"><output id="starOpacityValue"></output></span></label><label>Effektstärke <input type="range" id="intensity" min="0.25" max="2" step="0.05" value="1"></label><label>Bewegungsglättung <span class="setting-control"><input type="range" id="smoothing" min="0.3" max="4" step="0.1" aria-label="Bewegungsglättung in Sekunden"><output id="smoothingValue"></output></span></label><label>Animationstempo <span class="setting-control"><input type="range" id="animationSpeed" min="0.2" max="1" step="0.05" aria-label="Animationstempo"><output id="animationSpeedValue"></output></span></label><p>Mehr Glättung beruhigt kleine Schwankungen. Große Lastsprünge reagieren schneller; hohe CPU-Last macht die Wellen höher und schneller. Zahlen und Warnfarben bleiben aktuell.</p><fieldset class="thresholds"><legend>Temperatur · CPU und GPU</legend><label><span class="threshold-orange">Orange ab (°C)</span><input type="number" id="tempOrange" min="0" max="149" step="1"></label><label><span class="threshold-red">Rot ab (°C)</span><input type="number" id="tempRed" min="1" max="150" step="1"></label></fieldset><fieldset class="thresholds"><legend>Alle Prozentwerte · inklusive VRAM und Lautstärke</legend><label><span class="threshold-orange">Orange ab (%)</span><input type="number" id="usageOrange" min="0" max="99" step="1"></label><label><span class="threshold-red">Rot ab (%)</span><input type="number" id="usageRed" min="1" max="100" step="1"></label></fieldset><p>Änderungen werden automatisch in diesem Browser gespeichert.</p><label>Netzwerk-Einheit <select id="networkUnit"><option value="auto">Automatisch</option><option value="KB/s">KB/s</option><option value="MB/s">MB/s</option><option value="GB/s">GB/s</option></select></label><p>Dezimale Byte/s (keine Bit/s). Verläufe: letzte 60 Sekunden; Netzwerk-Skala passt sich dem höchsten Wert im sichtbaren Zeitraum an.</p><label>Demo-CPU-Last <select id="demoLoad"><option value="auto">Automatisch</option><option value="10">Niedrig · 10 %</option><option value="50">Mittel · 50 %</option><option value="95">Hoch · 95 %</option></select></label><p>F: Vollbild · S: Einstellungen · D: Demo an/aus<br>Das Browserfenster zuerst auf dein HDMI-Display verschieben. Die Anzeige skaliert im Verhältnis 1024:600.</p><p>„CPU RESPONSE“ ist eine lastabhängige Designanimation. Die kleinen Verlaufskurven zeigen echte Messwerte. „VOLUME“ zeigt die Windows-Lautstärke, keinen Audiopegel.</p><div id="sourceInfo">Warte auf Sensoren …</div><div class="dialog-actions"><button id="fullscreenButton">Vollbild starten</button><button id="doneButton">Fertig</button></div></dialog>
 <script>
 'use strict';
 const $=id=>document.getElementById(id),metrics=['cpu','gpu','ram','disk','volume'];
@@ -80,6 +82,8 @@ let demo=location.protocol==='file:'||new URLSearchParams(location.search).get('
 let motion=saved.motion ?? !matchMedia('(prefers-reduced-motion: reduce)').matches;
 function option(value,fallback,min,max){return typeof value==='number'&&Number.isFinite(value)?Math.max(min,Math.min(max,value)):fallback}
 let intensity=option(saved.intensity,1,.25,2);
+const networkUnits={'KB/s':1e3,'MB/s':1e6,'GB/s':1e9};
+let networkUnit=['auto',...Object.keys(networkUnits)].includes(saved.networkUnit)?saved.networkUnit:'MB/s';
 let starfieldEnabled=saved.starfieldEnabled!==false,starOpacity=option(saved.starOpacity,.45,.1,1);
 let smoothing=option(saved.smoothing,.8,.3,4),animationSpeed=option(saved.animationSpeed,.5,.2,1);
 let tempOrange=Math.round(option(saved.tempOrange,65,0,149)),tempRed=Math.round(option(saved.tempRed,75,1,150));
@@ -92,16 +96,24 @@ for(const key of metrics){
   direction:Math.random()<.5?-1:1,nextDrift:2+Math.random()*3});
 }
 let values={},sources={},live=false,lastFrame=0,lastHistory=0,requestId=0,visualCpu=0;
-let history={cpu:Array(60).fill(null),gpu:Array(60).fill(null)};
+const historyKeys=['cpu','gpu','up','down'];
+function emptyHistory(){return Object.fromEntries(historyKeys.map(key=>[key,[]]))}
+let history=emptyHistory();
 const valid=v=>typeof v==='number'&&Number.isFinite(v);
 const clamp=v=>Math.max(0,Math.min(100,v));
 const fmt=v=>valid(v)?Math.round(v):'—';
-function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,starfieldEnabled,starOpacity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
+function save(){try{localStorage.setItem('deep-space-options',JSON.stringify({motion,intensity,networkUnit,starfieldEnabled,starOpacity,smoothing,animationSpeed,tempOrange,tempRed,usageOrange,usageRed}))}catch{}}
 function fit(){const scale=Math.min(innerWidth/1024,innerHeight/600);$('hud').style.transform=`scale(${scale})`}
 addEventListener('resize',fit);fit();
 function warningColor(value,orange,red){return !valid(value)?'':value>=red?'#ff5263':value>=orange?'#ff9f43':''}
 function temperature(id,value){$(id).textContent=fmt(value)+' °C';$(id).style.color=warningColor(value,tempOrange,tempRed)}
-function rate(id,value){const unit=valid(value)&&value>=1e6?'MB/s':'KB/s';const v=valid(value)?(value/(unit==='MB/s'?1e6:1000)).toFixed(1):'—';$(id).innerHTML=`${v} <small>${unit}</small>`}
+function rateUnit(value){return networkUnit==='auto'?(value>=1e9?'GB/s':value>=1e6?'MB/s':'KB/s'):networkUnit}
+function rateText(value,unit){
+ if(!valid(value))return '—';
+ const scaled=Math.max(0,value)/networkUnits[unit];
+ return scaled>0&&scaled<.001?'<0.001':scaled.toFixed(scaled>=100?1:scaled>=1?2:3);
+}
+function rate(id,value){const unit=rateUnit(value);$(id).innerHTML=`${rateText(value,unit).replace('<','&lt;')} <small>${unit}</small>`}
 function applyValues(data,connected){
  values=data;live=connected;
  for(const k of metrics){dials[k].number.textContent=fmt(data[k]);dials[k].number.style.color=warningColor(data[k],usageOrange,usageRed)}
@@ -153,13 +165,48 @@ async function poll(){
 }
 let pollTimer;
 async function pollLoop(){await poll();pollTimer=setTimeout(pollLoop,1000)}
-function switchDemo(next){demo=next;requestId++;$('demoToggle').checked=demo;$('demoLoad').disabled=!demo;history={cpu:Array(60).fill(null),gpu:Array(60).fill(null)};lastHistory=0;visualCpu=0;for(const k of metrics)dials[k].display=0;values={};sources={};applyValues({},false);poll()}
-function drawHistory(key){
- const c=$(key+'History'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
- ctx.strokeStyle='#153541';ctx.lineWidth=1;
- for(let y=15;y<94;y+=26){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(182,y);ctx.stroke()}
- ctx.strokeStyle=key==='cpu'?'#37cbdc':'#aa6bd1';ctx.lineWidth=2;ctx.beginPath();let pen=false;
- history[key].forEach((v,i)=>{if(!valid(v)){pen=false;return}const x=i*182/59,y=90-clamp(v)*.82;if(pen)ctx.lineTo(x,y);else{ctx.moveTo(x,y);pen=true}});ctx.stroke();
+function switchDemo(next){demo=next;requestId++;$('demoToggle').checked=demo;$('demoLoad').disabled=!demo;history=emptyHistory();lastHistory=0;visualCpu=0;for(const k of metrics)dials[k].display=0;values={};sources={};applyValues({},false);poll()}
+function niceCeiling(value){
+ const power=10**Math.floor(Math.log10(Math.max(value,1e-9)));
+ return [1,2,5,10].find(n=>n*power>=value)*power;
+}
+function drawHistory(key,now=performance.now()){
+ const c=$(key+'History'),ctx=c.getContext('2d'),net=key==='up'||key==='down';
+ const width=c.width/2,height=c.height/2,left=net?43:30,right=width-2,top=net?12:6,bottom=net?32:51;
+ ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,width,height);
+ const points=history[key].filter(p=>p.time>=now-60000&&p.time<=now);
+ const peak=Math.max(0,...points.map(p=>valid(p.value)?p.value:0));
+ const unit=net?rateUnit(peak):'%';
+ const ceiling=net?niceCeiling(Math.max(peak,networkUnits[unit]*.01)):100;
+ c.dataset.scaleMax=String(ceiling);c.dataset.unit=unit;
+ c.setAttribute('aria-label',`${key.toUpperCase()}: letzte 60 Sekunden, Skala 0 bis ${net?ceiling/networkUnits[unit]:100} ${unit}`);
+ ctx.font='8px Consolas,monospace';ctx.textBaseline='middle';ctx.textAlign='right';
+ for(const fraction of [1,.5,0]){
+  const y=bottom-(bottom-top)*fraction,v=ceiling*fraction;
+  const label=net?Number((v/networkUnits[unit]).toFixed(4)).toString():v+'%';
+  ctx.fillStyle='#739ba6';ctx.fillText(label,left-4,y);
+  ctx.strokeStyle='#214552';ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();
+ }
+ if(net){ctx.textAlign='left';ctx.textBaseline='top';ctx.fillStyle='#739ba6';ctx.fillText(unit,0,0)}
+ ctx.textBaseline='bottom';ctx.fillStyle='#739ba6';
+ for(const [fraction,label,align] of [[0,'−60s','left'],[.5,'−30s','center'],[1,'jetzt','right']]){
+  ctx.textAlign=align;ctx.fillText(label,left+(right-left)*fraction,height-1);
+ }
+ ctx.strokeStyle=key==='cpu'||key==='up'?'#37cbdc':'#aa6bd1';ctx.lineWidth=1;ctx.beginPath();let previous=null;
+ for(const point of points){
+  if(!valid(point.value)){previous=null;continue}
+  const x=right-(now-point.time)/60000*(right-left),y=bottom-Math.min(ceiling,Math.max(0,point.value))/ceiling*(bottom-top);
+  if(previous&&point.time-previous.time<2200)ctx.lineTo(x,y);else ctx.moveTo(x,y);
+  previous=point;
+ }
+ ctx.stroke();
+}
+function sampleHistory(now){
+ for(const key of historyKeys){
+  history[key].push({time:now,value:valid(values[key])?values[key]:null});
+  history[key]=history[key].filter(p=>p.time>=now-60000);
+  drawHistory(key,now);
+ }
 }
 // Keep small fluctuations calm, but follow large steps in either direction quickly.
 function loadBlend(current,target,dt){
@@ -247,7 +294,7 @@ function frame(now){
  }
  drawStars(dt);
  response();
- if(now-lastHistory>=1000){lastHistory=now;for(const key of ['cpu','gpu']){history[key].push(valid(values[key])?values[key]:null);history[key].shift();drawHistory(key)}}
+ if(now-lastHistory>=1000){lastHistory=now;sampleHistory(now)}
 }
 async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch{showToast('Vollbild über F11 im Browser aktivieren.')}}
 function openSettings(){if(!$('settings').open)$('settings').showModal();updateSources()}
@@ -256,12 +303,15 @@ $('demoToggle').checked=demo;$('demoLoad').disabled=!demo;$('demoToggle').onchan
 $('demoLoad').onchange=()=>poll();$('motionToggle').checked=motion;$('motionToggle').onchange=e=>{motion=e.target.checked;save()};
 function syncOptions(){
  for(const [id,value] of Object.entries({smoothing,animationSpeed,starOpacity,tempOrange,tempRed,usageOrange,usageRed}))$(id).value=value;
+ $('networkUnit').value=networkUnit;
  $('starfieldToggle').checked=starfieldEnabled;
  $('starOpacityValue').textContent=Math.round(starOpacity*100)+' %';
  $('smoothingValue').textContent=smoothing.toFixed(1)+' s';
  $('animationSpeedValue').textContent=Math.round(animationSpeed*100)+' %';
 }
 syncOptions();
+$('networkUnit').onchange=e=>{networkUnit=e.target.value;save();rate('upValue',values.up);rate('downValue',values.down);for(const key of ['up','down'])drawHistory(key)};
+for(const key of historyKeys)drawHistory(key);
 $('starfieldToggle').onchange=e=>{starfieldEnabled=e.target.checked;save();drawStars(0)};
 $('starOpacity').oninput=e=>{starOpacity=Number(e.target.value);syncOptions();save();drawStars(0)};
 $('smoothing').oninput=e=>{smoothing=Number(e.target.value);syncOptions();save()};

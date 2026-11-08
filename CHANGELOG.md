@@ -2,6 +2,12 @@
 
 ## Nach v1.1.0 · 09.11.2026
 
+- Netzwerk-Einheit wählbar: feste KB/s, MB/s (Standard), GB/s oder Automatik.
+- Downlink-Pfeil vor dem Schriftzug; eigene Upload-/Download-Verlaufskurven.
+- Beschriftete Zeitachsen für echte 60-Sekunden-Fenster; CPU/GPU-Prozentskalen
+  und dynamische Netzwerk-Werteskalen, Unterbrechungen als Lücken.
+- README-GIF auf 24 Sekunden verlängert, mit langen orangefarbenen Lastphasen.
+
 - Dezenter perspektivischer Sternenflug mit CPU-abhängigem Tempo und Spuren.
 - Gespeicherter Schalter und Sichtbarkeitsregler im Setup; reduzierte Bewegung.
 - Animierte Demo in der README, englische Kurzbeschreibung und bereinigte Dopplung.

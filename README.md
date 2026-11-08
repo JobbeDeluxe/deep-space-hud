@@ -16,7 +16,8 @@ and a browser-based HUD.**
 
 ![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo.gif)
 
-*Animierte Demo: niedrige und hohe Last, Sternenflug und Warnfarben.
+*24-Sekunden-Demo: niedrige Last, längere orange Phase bei 74 %, hohe Last
+und zurück. Sternenflug, Warnfarben und beschriftete Verlaufskurven.
 Alle Messwerte im GIF sind simuliert.*
 [Statische Vorschau](VORSCHAU-DEMO.png) · [Deutsche Anleitung](LIESMICH.md)
 
@@ -47,6 +48,18 @@ gekennzeichnete **simulierte Demowerte** und benötigt keinen Sensorservice.
 
 In den Einstellungen lassen sich 10 %, 50 % und 95 % Demo-CPU-Last vergleichen,
 die Effektstärke verändern und Bewegungen ausschalten.
+
+## Netzwerk und Verlaufskurven
+
+Im Setup lassen sich **KB/s, MB/s, GB/s oder Automatik** auswählen; Standard
+ist **MB/s**. Es sind dezimale **Byte pro Sekunde**, keine Bit/s.
+Upload und Download haben eigene Verlaufskurven neben den aktuellen Werten.
+Die jeweilige Höhenskala richtet sich nach dem größten Wert im sichtbaren
+Zeitraum und trägt Zahlen samt Einheit.
+
+Alle vier Kurven zeigen die **letzten 60 Sekunden** mit „−60s“, „−30s“ und
+„jetzt“. CPU und GPU haben eine feste **0 / 50 / 100 %**-Skala. Datenlücken
+werden nicht verbunden; beim Demo-Wechsel werden die Verläufe zurückgesetzt.
 
 ## Sternenflug im Hintergrund
 

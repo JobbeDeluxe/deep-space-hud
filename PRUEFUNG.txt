@@ -63,3 +63,14 @@ Sternenflug-Prüfung — 09.11.2026, Windows / Chrome / Playwright
 - Betriebssystem-Einstellung für reduzierte Bewegung beim Erststart geprüft.
 - 180 Demo-Frames für das README-GIF aufgenommen; niedrige und hohe Last visuell
   geprüft. GIF enthält ausschließlich gekennzeichnete simulierte Sensorwerte.
+
+Netzwerk-/Verlauf-Prüfung — 09.11.2026, Windows / Chrome / Playwright
+- Umrechnung aller festen Einheiten und Automatik-Grenzen für KB/MB/GB geprüft.
+- Sehr kleine positive Werte, Null und fehlende Messwerte berücksichtigt.
+- Netzwerk-Einheit bleibt nach Neuladen erhalten und aktualisiert die Anzeige.
+- Verlauf verwendet Zeitstempel; ältere Werte fallen aus dem 60-Sekunden-Fenster.
+- Unterbrechungen werden nicht verbunden; Achsenmarkierungen und Netzwerkskala geprüft.
+- Downlink-Pfeil vor der Beschriftung; neue Kurven innerhalb der 1024x600-Fläche.
+- Bestehende Animations-, Warnfarben-, Sternenflug- und Einstellungstests bestanden.
+- 360 GIF-Frames, 24 Sekunden; bei 74 % CPU mehrere Sekunden orange vor Rot.
+- Orange Demo-Phase und neue Kurven visuell geprüft, ZIP-Dateien abgeglichen.
