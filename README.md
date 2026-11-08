@@ -4,7 +4,7 @@ Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
 einer Cyan-HUD-Oberfläche. Die Animation reagiert auf die CPU-Last.
 
-**[Windows-Paket herunterladen](https://github.com/JobbeDeluxe/deep-space-hud/releases/latest/download/Deep-Space-HUD-Windows.zip)**
+**[Windows-Paket herunterladen](https://github.com/JobbeDeluxe/deep-space-hud/raw/refs/heads/main/downloads/Deep-Space-HUD-Windows.zip)**
 · [Alle Releases](https://github.com/JobbeDeluxe/deep-space-hud/releases)
 · [Vollständige Anleitung](LIESMICH.md)
 
