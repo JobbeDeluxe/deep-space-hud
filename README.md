@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow · v1.2.0
+# Deep Space HUD · Cyan Flow · v1.2.1
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -14,7 +14,7 @@ and a browser-based HUD.**
 · [Alle Releases](https://github.com/JobbeDeluxe/deep-space-hud/releases)
 · [Vollständige Anleitung](LIESMICH.md)
 
-![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo.gif)
+![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo-v1.2.1.gif)
 
 *24-Sekunden-Demo: niedrige Last, längere orange Phase bei 74 %, hohe Last
 und zurück. Sternenflug, Warnfarben und beschriftete Verlaufskurven.
@@ -48,6 +48,17 @@ gekennzeichnete **simulierte Demowerte** und benötigt keinen Sensorservice.
 
 In den Einstellungen lassen sich 10 %, 50 % und 95 % Demo-CPU-Last vergleichen,
 die Effektstärke verändern und Bewegungen ausschalten.
+
+## Hintergrundbetrieb
+
+Der Python-Sensorserver sammelt CPU, GPU, Upload und Download weiter, auch wenn
+das Browserfenster keinen Fokus hat oder der Tab im Hintergrund liegt. Die
+letzten **60 Sekunden** werden im Server gehalten und als Live-Datenstrom an
+das HUD geschickt. Beim Zurückwechseln werden Messwerte und Verlauf nachgeladen.
+Ein vom Browser vollständig eingefrorener Tab kann vorübergehend nicht zeichnen;
+die währenddessen im Server gemessenen Punkte gehen dadurch nicht verloren.
+Der Sensorserver muss dafür weiterlaufen. Echte Sensor- oder Serverausfälle
+bleiben als fehlende Werte beziehungsweise Datenlücken erkennbar.
 
 ## Netzwerk und Verlaufskurven
 

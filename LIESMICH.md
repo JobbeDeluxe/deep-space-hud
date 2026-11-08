@@ -53,6 +53,20 @@ Python noch Internet nötig. Diese Ansicht liest keine echten PC-Sensoren aus.
   Warnfarben und Zahlen folgen den aktuellen Messwerten, unabhängig von der
   Glättung der Animation. Die Sensorabfrage erfolgt ungefähr einmal pro Sekunde.
 
+## Hintergrundbetrieb und Zurückwechseln
+
+Seit v1.2.1 sammelt der Python-Server die vier Verläufe selbst, unabhängig von
+Browser-Timern und Animation. CPU, GPU, Upload und Download werden für die
+letzten 60 Sekunden gespeichert. Ein lokaler Datenstrom aktualisiert das HUD;
+die bisherige HTTP-Abfrage bleibt als Rückfallebene erhalten.
+
+Beim Wechsel zu einem anderen Fenster oder Tab läuft die Messung weiter.
+Wenn der Browser einen Tab vollständig einfriert, werden die gemessenen Punkte
+beim Zurückwechseln nachgeladen. Ein kurzes Verbindungsproblem löscht nicht
+sofort die aktuellen Werte; ein länger anhaltender Ausfall wird weiterhin
+als offline angezeigt. Sensorlücken werden nicht durch erfundene Werte ersetzt.
+**server.py / START.cmd muss währenddessen laufen.**
+
 ## Netzwerk-Einheiten und Verlaufsskalen
 
 Unter **S → Netzwerk-Einheit** stehen **kbit/s, Mbit/s, Gbit/s** und

@@ -160,22 +160,71 @@ function demoData(){
  const cpu=selection==='auto'?clamp(32+25*Math.sin(t*.21)+12*Math.sin(t*.63)):Number(selection);
  return {cpu,gpu:clamp(41+26*Math.sin(t*.17+.9)),ram:46+3*Math.sin(t*.09),disk:68,volume:64,cpu_temp:36+cpu*.48,gpu_temp:49+12*Math.sin(t*.17+.9),vram:38+9*Math.sin(t*.1),up:12400+8000*Math.sin(t*.4),down:2380000+1100000*Math.sin(t*.27),disk_path:'C:\\',muted:false};
 }
+let pollTimer,pollController,eventStream,lastTelemetryAt=0,lastResume=-Infinity;
+function acceptTelemetry(data){
+ if(demo||!valid(data.timestamp)||Math.abs(Date.now()/1000-data.timestamp)>6)return false;
+ if(data.timestamp*1000<lastTelemetryAt)return false;
+ lastTelemetryAt=data.timestamp*1000;
+ sources=data.sources||{};applyValues(data,true);
+ const now=performance.now();
+ if(Array.isArray(data.history)){
+  const clockOffset=Date.now()-now;
+  for(const key of historyKeys){
+   history[key]=data.history.filter(p=>valid(p.timestamp)).map(p=>({time:p.timestamp*1000-clockOffset,value:valid(p[key])?p[key]:null})).filter(p=>p.time>=now-60000&&p.time<=now+1000);
+   drawHistory(key,now);
+  }
+ }else if(now-lastHistory>=1000){lastHistory=now;sampleHistory(now)}
+ // Sensor arrivals also update the display when requestAnimationFrame is paused.
+ renderFrame(now);
+ return true;
+}
+function connectionFailed(){
+ // A brief timeout must not erase healthy values. A real outage still goes offline.
+ if(Date.now()-lastTelemetryAt>8000){sources={};applyValues({},false);renderFrame(performance.now())}
+}
 async function poll(){
  const id=++requestId;
+ pollController?.abort();
  if(demo){sources={};applyValues(demoData(),false);return}
  if(location.protocol==='file:'){applyValues({},false);return}
+ const controller=new AbortController();pollController=controller;
+ const timeout=setTimeout(()=>controller.abort(),4000);
  try{
-  const r=await fetch('/api/telemetry',{cache:'no-store',signal:AbortSignal.timeout(1800)});
+  const r=await fetch('/api/telemetry',{cache:'no-store',signal:controller.signal});
   if(!r.ok)throw Error('service');
   const data=await r.json();
   if(id!==requestId||demo)return;
-  if(!valid(data.timestamp)||Math.abs(Date.now()/1000-data.timestamp)>6)throw Error('stale');
-  sources=data.sources||{};applyValues(data,true);
- }catch{if(id===requestId&&!demo){sources={};applyValues({},false)}}
+  if(!acceptTelemetry(data))connectionFailed();
+ }catch{if(id===requestId&&!demo)connectionFailed()}
+ finally{clearTimeout(timeout);if(pollController===controller)pollController=null}
 }
-let pollTimer;
-async function pollLoop(){await poll();pollTimer=setTimeout(pollLoop,1000)}
-function switchDemo(next){demo=next;requestId++;$('demoToggle').checked=demo;$('demoLoad').disabled=!demo;history=emptyHistory();lastHistory=0;visualCpu=0;for(const k of metrics)dials[k].display=0;values={};sources={};applyValues({},false);poll()}
+function closeEvents(){eventStream?.close();eventStream=null}
+function connectEvents(){
+ closeEvents();
+ if(demo||location.protocol==='file:'||!('EventSource' in window))return;
+ const stream=new EventSource('/api/events');eventStream=stream;
+ stream.onmessage=event=>{
+  if(eventStream!==stream||demo)return;
+  try{acceptTelemetry(JSON.parse(event.data))}catch{}
+ };
+ stream.onerror=()=>{if(eventStream===stream&&!demo)poll()};
+}
+async function pollLoop(){
+ // HTTP polling remains a fallback for older servers or interrupted event streams.
+ if(demo||!eventStream||eventStream.readyState!==1||Date.now()-lastTelemetryAt>3500)await poll();
+ pollTimer=setTimeout(pollLoop,1000);
+}
+function resumeTelemetry(){
+ const now=performance.now();if(now-lastResume<250)return;lastResume=now;
+ requestId++;pollController?.abort();connectEvents();poll();renderFrame(now);
+}
+addEventListener('focus',resumeTelemetry);
+addEventListener('pageshow',resumeTelemetry);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)resumeTelemetry()});
+document.addEventListener('resume',resumeTelemetry);
+document.addEventListener('freeze',()=>{requestId++;pollController?.abort();closeEvents()});
+addEventListener('pagehide',()=>{requestId++;pollController?.abort();closeEvents()});
+function switchDemo(next){demo=next;requestId++;pollController?.abort();closeEvents();lastTelemetryAt=0;$('demoToggle').checked=demo;$('demoLoad').disabled=!demo;history=emptyHistory();lastHistory=0;visualCpu=0;for(const k of metrics)dials[k].display=0;values={};sources={};applyValues({},false);for(const key of historyKeys)drawHistory(key);connectEvents();poll()}
 function niceCeiling(value){
  const power=10**Math.floor(Math.log10(Math.max(value,1e-9)));
  return [1,2,5,10].find(n=>n*power>=value)*power;
@@ -283,8 +332,8 @@ function drawStars(dt){
   ctx.beginPath();ctx.moveTo(x-dx,y-dy);ctx.lineTo(x+(length<.7?.7:0),y);ctx.stroke();
  }
 }
-function frame(now){
- requestAnimationFrame(frame);
+function frame(now){requestAnimationFrame(frame);renderFrame(now)}
+function renderFrame(now){
  if(now-lastFrame<32)return;
  const dt=Math.min((now-lastFrame)/1000,.15);lastFrame=now;
  const time=new Date();$('date').textContent=time.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
@@ -306,7 +355,7 @@ function frame(now){
  }
  drawStars(dt);
  response();
- if(now-lastHistory>=1000){lastHistory=now;sampleHistory(now)}
+ if(demo&&now-lastHistory>=1000){lastHistory=now;sampleHistory(now)}
 }
 async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch{showToast('Vollbild über F11 im Browser aktivieren.')}}
 function openSettings(){if(!$('settings').open)$('settings').showModal();updateSources()}
@@ -366,6 +415,6 @@ function showToast(text){$('toast').textContent=text;$('toast').classList.remove
 function awake(){document.body.classList.remove('idle');clearTimeout(idleTimer);idleTimer=setTimeout(()=>{if(!$('settings').open)document.body.classList.add('idle')},4000)}
 addEventListener('pointermove',awake);addEventListener('keydown',awake);awake();
 showToast('F · Vollbild   S · Einstellungen   D · Demo');
-pollLoop();requestAnimationFrame(frame);
+connectEvents();pollLoop();requestAnimationFrame(frame);
 </script>
 </body></html>

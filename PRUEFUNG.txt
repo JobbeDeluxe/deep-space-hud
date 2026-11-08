@@ -87,3 +87,18 @@ Release v1.2.0 — 09.11.2026, Windows / Chrome / Playwright
 - Bestehende Warnfarben-, Lastreaktions-, Sternenflug- und Verlaufstests bestanden.
 - Neues GIF: 360 Frames / 24 Sekunden; aktuelle Mbit/s-Anzeige und Ringbewegung.
 - ZIP-Inhalt mit Quelldateien und SHA-256-Prüfsumme abgeglichen.
+
+Release v1.2.1 — 09.11.2026, Windows / Chrome / Playwright / Python unittest
+- Live-Anzeige und vier Verläufe aktualisieren sich auch ohne requestAnimationFrame.
+- Chrome-Tab gezielt 8,5 Sekunden eingefroren: Sensorserver misst weiter;
+  nach Wiederaufnahme alle vier Verläufe mit den tatsächlich gemessenen Punkten
+  ohne zusätzliche Lücke wiederhergestellt.
+- Echte Verbindungsausfälle zeigen offline; Wiederverbindung liefert aktuelle Werte.
+- Demo-Wechsel schließt den Live-Datenstrom; verspätete Live-Daten überschreiben
+  die Demo nicht. Host- und Cross-Site-Schutz am neuen Stream-Endpunkt geprüft.
+- Backend-Tests: begrenzter 60-Sekunden-Verlauf, keine veralteten GPU-Werte,
+  keine Veränderung des internen Verlaufs durch externe Snapshot-Kopien.
+- Vorherige Animations-, Netzwerk-, Skalen-, Ring- und Sternenflugtests bestanden.
+- Neues GIF mit sichtbarer v1.2.1-Kennung und neuer Dateiadresse; 360 Frames.
+
+Backend-Tests wiederholen: python -m unittest discover -s tests -v

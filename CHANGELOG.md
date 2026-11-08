@@ -1,5 +1,17 @@
 # Änderungen
 
+## v1.2.1 · 09.11.2026
+
+- Live-Datenstrom (Server-Sent Events) mit HTTP-Rückfall und Wiederverbindung.
+- CPU-/GPU-/Netzwerk-Verläufe werden serverseitig für 60 Sekunden gesammelt;
+  Browser-Fokus, pausierte Animation und eingefrorene Tabs verursachen keine
+  fehlenden Messpunkte mehr, solange der Sensorserver läuft.
+- Sofortige Aktualisierung bei Fokus, Sichtbarkeit und Wiederaufnahme des Tabs.
+- Kurze Verbindungsfehler leeren gültige Werte nicht sofort; echte Ausfälle
+  bleiben erkennbar. Demo und Live-Daten bleiben getrennt.
+- Neu aufgenommenes README-GIF mit sichtbarer Versionskennung und versioniertem
+  Dateinamen, damit die geänderte Vorschau nicht dieselbe Cache-Adresse verwendet.
+
 ## v1.2.0 · 09.11.2026
 
 - Netzwerk-Verläufe wahlweise automatisch oder mit getrennten festen Upload-/

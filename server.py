@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import deque
 import json
 import math
 import os
@@ -83,6 +84,7 @@ class Telemetry:
         self.data.update(timestamp=0, sources={}, disk_path=config['disk_path'], network_interface=config['network_interface'])
         self.stop = threading.Event()
         self.hardware = ({}, {}, 0)
+        self.history = deque(maxlen=65)
 
     def start(self):
         threading.Thread(target=self._hardware_loop, daemon=True).start()
@@ -95,7 +97,19 @@ class Telemetry:
             if time.time() - updated < 8:
                 result.update(advanced)
                 result['sources'] = dict(sources)
+            cutoff = time.time() - 60
+            result['history'] = [dict(row) for row in self.history if row['timestamp'] >= cutoff]
             return result
+
+    def _publish_system(self, row):
+        # Collect history independently of browser visibility and animation frames.
+        with self.lock:
+            self.data = row
+            advanced, _, updated = self.hardware
+            sample = dict(row)
+            if time.time() - updated < 8:
+                sample.update(advanced)
+            self.history.append({key: sample.get(key) for key in ('timestamp', 'cpu', 'gpu', 'up', 'down')})
 
     def _net(self):
         per_nic = psutil.net_io_counters(pernic=True)
@@ -151,8 +165,7 @@ class Telemetry:
                     except Exception:
                         row['muted'] = None
                 row.update(timestamp=time.time(), sources={}, disk_path=self.config['disk_path'], network_interface=self.config['network_interface'])
-                with self.lock:
-                    self.data = row
+                self._publish_system(row)
         finally:
             if volume_available:
                 comtypes.CoUninitialize()
@@ -223,6 +236,26 @@ def main():
                 self.send_error(403)
                 return
             path = urlsplit(self.path).path
+            if path == '/api/events':
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/event-stream; charset=utf-8')
+                self.send_header('Cache-Control', 'no-store')
+                self.send_header('X-Content-Type-Options', 'nosniff')
+                self.end_headers()
+                self.close_connection = True
+                self.connection.settimeout(5)
+                try:
+                    self.wfile.write(b'retry: 2000\n\n')
+                    self.wfile.flush()
+                    while not telemetry.stop.is_set():
+                        body = json.dumps(telemetry.snapshot(), allow_nan=False).encode('utf-8')
+                        self.wfile.write(b'data: ' + body + b'\n\n')
+                        self.wfile.flush()
+                        if telemetry.stop.wait(1):
+                            break
+                except (OSError, TimeoutError):
+                    pass
+                return
             if path == '/api/telemetry':
                 body, mime = json.dumps(telemetry.snapshot(), allow_nan=False).encode(), 'application/json'
             elif path in ('/', '/Deep-Space-HUD.html'):
