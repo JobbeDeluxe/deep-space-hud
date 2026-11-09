@@ -55,6 +55,19 @@ Python noch Internet nötig. Diese Ansicht liest keine echten PC-Sensoren aus.
 
 ## Hintergrundbetrieb und Zurückwechseln
 
+**Ab v1.2.2 öffnet START.cmd ein eigenes Chrome-/Edge-HUD-Fenster.** Es startet
+mit Parametern gegen Hintergrunddrosselung und einem eigenen Profil unter
+`%USERPROFILE%\.deep-space-hud`. Energie-/Speichersparen und automatisches
+Einfrieren sind in diesem Profil bei der Einrichtung ausgeschaltet. Das
+persönliche Browserprofil wird nicht verändert. Fenster auf das HDMI-Display
+ziehen und dort geöffnet lassen, während das Spiel auf dem Hauptdisplay läuft.
+
+Die bisherigen HUD-Einstellungen gehören zum normalen Browserprofil: im neuen
+Fenster einmal neu einstellen. Danach werden sie dort gespeichert, auch über
+Updates hinweg. **START-BROWSER.cmd** verwendet alternativ den Standardbrowser;
+ein normaler Tab kann weiterhin vom Browser pausiert werden. Ohne Chrome oder
+Edge verwendet START.cmd ebenfalls den Standardbrowser und meldet dies.
+
 Seit v1.2.1 sammelt der Python-Server die vier Verläufe selbst, unabhängig von
 Browser-Timern und Animation. CPU, GPU, Upload und Download werden für die
 letzten 60 Sekunden gespeichert. Ein lokaler Datenstrom aktualisiert das HUD;
@@ -66,6 +79,17 @@ beim Zurückwechseln nachgeladen. Ein kurzes Verbindungsproblem löscht nicht
 sofort die aktuellen Werte; ein länger anhaltender Ausfall wird weiterhin
 als offline angezeigt. Sensorlücken werden nicht durch erfundene Werte ersetzt.
 **server.py / START.cmd muss währenddessen laufen.**
+
+Die Messung verwendet ab v1.2.2 einen festen Sekundentakt. Die potenziell
+blockierende Windows-Audioabfrage läuft separat; ihr Ausfall lässt CPU, RAM und
+Netzwerk weiterlaufen. Alte Lautstärkewerte werden nach acht Sekunden verworfen.
+Abgebrochene HTTP-Verbindungen (auch Windows-Fehler 10053/10054) sind erwartete
+Verbindungsabbrüche und erzeugen keinen Traceback mehr.
+
+Beim Update den alten Server mit **Strg+C** beenden, Dateien ersetzen und
+**START.cmd** starten. Ein bloßes Neuladen des alten Browser-Tabs aktiviert
+den neuen Fenstermodus nicht. Windows-Standby, ein gestoppter Sensorserver oder
+echte Sensorausfälle können weiterhin Messlücken verursachen.
 
 ## Netzwerk-Einheiten und Verlaufsskalen
 

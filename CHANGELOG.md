@@ -1,11 +1,23 @@
 # Änderungen
 
+## v1.2.2 · 09.11.2026
+
+- START.cmd öffnet ein separates Chrome-/Edge-HUD-Fenster mit eigenem Profil
+  und Parametern gegen Hintergrunddrosselung und Fenster-Verdeckungserkennung.
+  Energie-/Speichersparen und automatisches Einfrieren sind dort initial aus.
+- START-BROWSER.cmd bleibt als Alternative für den normalen Standardbrowser.
+  Das eigene HUD-Profil benötigt einmalig die gewünschten HUD-Einstellungen.
+- Windows-CoreAudio-Abfrage aus der CPU-/Netzwerk-Messschleife ausgegliedert.
+  Ein blockierendes Audiogerät hält die Verlaufssammlung nicht mehr auf.
+- Fester Messtakt statt einer zusätzlichen Sekunde Pause nach jeder Abfrage.
+- ConnectionAbortedError / WinError 10053 und weitere normale Verbindungsabbrüche
+  werden auch beim Schreiben von HTTP-Headern und beim Abschluss abgefangen.
+
 ## v1.2.1 · 09.11.2026
 
 - Live-Datenstrom (Server-Sent Events) mit HTTP-Rückfall und Wiederverbindung.
-- CPU-/GPU-/Netzwerk-Verläufe werden serverseitig für 60 Sekunden gesammelt;
-  Browser-Fokus, pausierte Animation und eingefrorene Tabs verursachen keine
-  fehlenden Messpunkte mehr, solange der Sensorserver läuft.
+- CPU-/GPU-/Netzwerk-Verläufe werden serverseitig für 60 Sekunden gesammelt
+  und nach pausierter Animation oder eingefrorenem Tab erneut übertragen.
 - Sofortige Aktualisierung bei Fokus, Sichtbarkeit und Wiederaufnahme des Tabs.
 - Kurze Verbindungsfehler leeren gültige Werte nicht sofort; echte Ausfälle
   bleiben erkennbar. Demo und Live-Daten bleiben getrennt.

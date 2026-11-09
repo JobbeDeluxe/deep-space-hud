@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow · v1.2.1
+# Deep Space HUD · Cyan Flow · v1.2.2
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -28,6 +28,7 @@ Alle Messwerte im GIF sind simuliert.*
    installieren, falls es noch fehlt. Im Installer **Add python.exe to PATH** aktivieren.
 3. **START.cmd** doppelklicken. Der erste Start installiert die benötigten
    Python-Bibliotheken in einer lokalen `.venv`; dafür wird Internet benötigt.
+   Chrome oder Edge öffnet ein eigenes HUD-Fenster für den Hintergrundbetrieb.
 4. In Windows den Desktop auf das HDMI-Display **erweitern**, das Browserfenster
    auf dieses Display ziehen und **F** oder **F11** für Vollbild drücken.
 5. Das Terminal offen lassen. Zum Beenden dort **Strg+C** drücken.
@@ -51,6 +52,16 @@ die Effektstärke verändern und Bewegungen ausschalten.
 
 ## Hintergrundbetrieb
 
+**Für das HDMI-Display neben einem Spiel: `START.cmd` verwenden.** Seit v1.2.2
+öffnet es ein eigenes Chrome-/Edge-Fenster mit separatem HUD-Profil. In diesem
+Profil sind Energie-/Speichersparen und automatisches Einfrieren bei der ersten
+Einrichtung deaktiviert; Startparameter verhindern die Timerdrosselung und
+Hintergrundbehandlung verdeckter Fenster. Das normale Browserprofil wird nicht
+verändert. Die HUD-Einstellungen im neuen Profil einmal neu setzen; anschließend
+bleiben sie dort gespeichert. `START-BROWSER.cmd` öffnet weiterhin den normalen
+Standardbrowser, dessen Hintergrundregeln dann gelten. Ohne Chrome/Edge wird
+ebenfalls auf den Standardbrowser zurückgegriffen.
+
 Der Python-Sensorserver sammelt CPU, GPU, Upload und Download weiter, auch wenn
 das Browserfenster keinen Fokus hat oder der Tab im Hintergrund liegt. Die
 letzten **60 Sekunden** werden im Server gehalten und als Live-Datenstrom an
@@ -59,6 +70,9 @@ Ein vom Browser vollständig eingefrorener Tab kann vorübergehend nicht zeichne
 die währenddessen im Server gemessenen Punkte gehen dadurch nicht verloren.
 Der Sensorserver muss dafür weiterlaufen. Echte Sensor- oder Serverausfälle
 bleiben als fehlende Werte beziehungsweise Datenlücken erkennbar.
+Die Windows-Lautstärkeabfrage läuft getrennt und kann die CPU-/Netzwerk-Messung
+nicht mehr aufhalten. Abgebrochene Browserverbindungen, einschließlich
+`WinError 10053`, werden ohne Traceback beendet.
 
 ## Netzwerk und Verlaufskurven
 

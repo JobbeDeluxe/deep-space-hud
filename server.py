@@ -18,6 +18,7 @@ from urllib.request import ProxyHandler, build_opener
 import webbrowser
 
 import psutil
+from hud_window import open_hud_window
 
 ROOT = Path(__file__).resolve().parent
 KEYS = ('cpu', 'ram', 'disk', 'volume', 'cpu_temp', 'gpu', 'gpu_temp', 'vram', 'up', 'down')
@@ -84,15 +85,20 @@ class Telemetry:
         self.data.update(timestamp=0, sources={}, disk_path=config['disk_path'], network_interface=config['network_interface'])
         self.stop = threading.Event()
         self.hardware = ({}, {}, 0)
+        self.audio = ({}, 0)
         self.history = deque(maxlen=65)
 
     def start(self):
         threading.Thread(target=self._hardware_loop, daemon=True).start()
+        threading.Thread(target=self._audio_loop, daemon=True).start()
         threading.Thread(target=self._system_loop, daemon=True).start()
 
     def snapshot(self):
         with self.lock:
             result = dict(self.data)
+            audio, audio_updated = self.audio
+            if time.monotonic() - audio_updated < 8:
+                result.update(audio)
             advanced, sources, updated = self.hardware
             if time.time() - updated < 8:
                 result.update(advanced)
@@ -123,52 +129,65 @@ class Telemetry:
     def _system_loop(self):
         psutil.cpu_percent(None)
         old_net, old_time = self._net(), time.monotonic()
-        volume_available = False
-        if sys.platform == 'win32':
+        deadline = old_time + 1
+        while not self.stop.wait(max(0, deadline - time.monotonic())):
+            now = time.monotonic()
+            row = {key: None for key in KEYS}
             try:
-                import comtypes
-                from pycaw.pycaw import AudioUtilities
-                comtypes.CoInitialize()
-                volume_available = True
-            except Exception:
+                row['cpu'] = psutil.cpu_percent(None)
+                row['ram'] = psutil.virtual_memory().percent
+            except (OSError, psutil.Error):
                 pass
+            try:
+                row['disk'] = psutil.disk_usage(self.config['disk_path']).percent
+            except (OSError, psutil.Error):
+                pass
+            try:
+                current = self._net()
+                common = current.keys() & old_net.keys()
+                if common:
+                    elapsed = max(now - old_time, 0.001)
+                    row['up'] = sum(max(0, current[n].bytes_sent - old_net[n].bytes_sent) for n in common) / elapsed
+                    row['down'] = sum(max(0, current[n].bytes_recv - old_net[n].bytes_recv) for n in common) / elapsed
+                old_net, old_time = current, now
+            except (OSError, psutil.Error):
+                pass
+            row.update(timestamp=time.time(), sources={}, disk_path=self.config['disk_path'], network_interface=self.config['network_interface'])
+            self._publish_system(row)
+            # Fixed cadence, without a burst of invented catch-up samples after a stall.
+            deadline += 1
+            if deadline < time.monotonic():
+                deadline = time.monotonic() + 1
+
+    @staticmethod
+    def _read_audio():
+        from pycaw.pycaw import AudioUtilities
+        # Resolve the default device again so output changes are reflected.
+        endpoint = AudioUtilities.GetSpeakers().EndpointVolume
+        return {'volume': endpoint.GetMasterVolumeLevelScalar() * 100,
+                'muted': bool(endpoint.GetMute())}
+
+    def _audio_loop(self):
+        # CoreAudio/COM can block during device changes or games. It must never
+        # hold the sampling thread or the shared lock while calling Windows.
+        if sys.platform != 'win32':
+            return
         try:
-            while not self.stop.wait(1):
-                now = time.monotonic()
-                row = {key: None for key in KEYS}
+            import comtypes
+            comtypes.CoInitialize()
+        except Exception:
+            return
+        try:
+            while not self.stop.is_set():
                 try:
-                    row['cpu'] = psutil.cpu_percent(None)
-                    row['ram'] = psutil.virtual_memory().percent
-                except (OSError, psutil.Error):
-                    pass
-                try:
-                    row['disk'] = psutil.disk_usage(self.config['disk_path']).percent
-                except (OSError, psutil.Error):
-                    pass
-                try:
-                    current = self._net()
-                    common = current.keys() & old_net.keys()
-                    if common:
-                        elapsed = max(now - old_time, 0.001)
-                        row['up'] = sum(max(0, current[n].bytes_sent - old_net[n].bytes_sent) for n in common) / elapsed
-                        row['down'] = sum(max(0, current[n].bytes_recv - old_net[n].bytes_recv) for n in common) / elapsed
-                    old_net, old_time = current, now
-                except (OSError, psutil.Error):
-                    pass
-                if volume_available:
-                    try:
-                        # Re-resolve the default device so switching audio outputs works.
-                        device = AudioUtilities.GetSpeakers()
-                        endpoint = device.EndpointVolume
-                        row['volume'] = endpoint.GetMasterVolumeLevelScalar() * 100
-                        row['muted'] = bool(endpoint.GetMute())
-                    except Exception:
-                        row['muted'] = None
-                row.update(timestamp=time.time(), sources={}, disk_path=self.config['disk_path'], network_interface=self.config['network_interface'])
-                self._publish_system(row)
+                    audio = self._read_audio()
+                except Exception:
+                    audio = {'volume': None, 'muted': None}
+                with self.lock:
+                    self.audio = (audio, time.monotonic())
+                self.stop.wait(1)
         finally:
-            if volume_available:
-                comtypes.CoUninitialize()
+            comtypes.CoUninitialize()
 
     def _hardware_loop(self):
         # Bypass environment proxy configuration for loopback requests.
@@ -216,9 +235,28 @@ def load_config():
     return config
 
 
+class LocalRequestHandler(BaseHTTPRequestHandler):
+    """A browser disconnect is normal, including Windows socket error 10053."""
+    def handle(self):
+        try:
+            super().handle()
+        except (ConnectionError, TimeoutError):
+            self.close_connection = True
+
+    def finish(self):
+        try:
+            super().finish()
+        except (ConnectionError, TimeoutError):
+            pass
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--no-browser', action='store_true')
+    parser.add_argument('--app-window', action='store_true',
+                        help='Eigenes Chrome/Edge-HUD-Fenster fuer Hintergrundbetrieb')
+    parser.add_argument('--browser', dest='app_window', action='store_false',
+                        help='Normalen Standardbrowser statt HUD-Fenster verwenden')
     parser.add_argument('--port', type=int)
     args = parser.parse_args()
     config = load_config()
@@ -226,7 +264,7 @@ def main():
     telemetry = Telemetry(config)
     html = (ROOT / 'Deep-Space-HUD.html').read_bytes()
 
-    class Handler(BaseHTTPRequestHandler):
+    class Handler(LocalRequestHandler):
         def do_GET(self):
             # Reject foreign Host headers and cross-site browser fetches.
             if self.headers.get('Host', '') not in (f'127.0.0.1:{port}', f'localhost:{port}'):
@@ -253,7 +291,7 @@ def main():
                         self.wfile.flush()
                         if telemetry.stop.wait(1):
                             break
-                except (OSError, TimeoutError):
+                except (ConnectionError, TimeoutError):
                     pass
                 return
             if path == '/api/telemetry':
@@ -274,10 +312,7 @@ def main():
             self.send_header('X-Content-Type-Options', 'nosniff')
             self.send_header('Content-Security-Policy', "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src data:; base-uri 'none'; frame-ancestors 'none'")
             self.end_headers()
-            try:
-                self.wfile.write(body)
-            except (BrokenPipeError, ConnectionResetError):
-                pass
+            self.wfile.write(body)
 
         def log_message(self, *args):
             pass
@@ -291,7 +326,8 @@ def main():
     url = f'http://127.0.0.1:{port}'
     print(f'\nDEEP SPACE // HDMI HUD\n{url}\n\nFenster auf das HDMI-Display verschieben, dann F oder F11.\nDieses Fenster offen lassen. Beenden: Strg+C.\n')
     if not args.no_browser:
-        webbrowser.open(url)
+        if not args.app_window or not open_hud_window(url):
+            webbrowser.open(url)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

@@ -102,3 +102,25 @@ Release v1.2.1 — 09.11.2026, Windows / Chrome / Playwright / Python unittest
 - Neues GIF mit sichtbarer v1.2.1-Kennung und neuer Dateiadresse; 360 Frames.
 
 Backend-Tests wiederholen: python -m unittest discover -s tests -v
+
+Release v1.2.2 — 09.11.2026, Windows / Chrome 156 / Python unittest
+- 5 Minuten 10 Sekunden minimiertes Chrome-Fenster mit HUD-Hintergrundparametern:
+  305 Live-Ereignisse, am Ende 60 aktuelle Verlaufspunkte. Während der Wartezeit
+  kein JavaScript-Polling durch den Test, das den Tab wachhalten könnte.
+- Anschließend 65 Sekunden über Chrome-Lifecycle erzwungen eingefroren:
+  CPU, GPU, Upload und Download nach Wiederaufnahme mit der vollständigen
+  letzten Minute tatsächlicher Messpunkte und ohne zusätzliche Verlaufslücke.
+- Blockierte CoreAudio-Abfrage injiziert: CPU-/Netzwerk-Messtakt läuft weiter.
+- 60 echte TCP-Resets über HTML-, JSON-, SSE- und 404-Antworten: kein Traceback,
+  Server danach weiter erreichbar. WinError 10053/10054 und Schreib-/Timeout-
+  Abbrüche zusätzlich gezielt getestet; Programmierfehler werden nicht verdeckt.
+- Sieben Python-Tests: Historie, Audioisolierung/-ablauf, Verbindungsabbrüche,
+  Profilinitialisierung ohne Überschreiben und Store-Python-Profilpfad.
+- START.cmd einschließlich Einrichtung einer frischen .venv geprüft.
+- Echter Chrome-Start mit Microsoft-Store-Python: Energie- und Speichersparen
+  im laufenden Browser als deaktiviert geprüft. Profil außerhalb LOCALAPPDATA,
+  damit Store-Python und Chrome dieselben Dateien verwenden.
+- Bestehende Warnfarben-, Ring-, Netzwerk-, Skalierungs- und SSE-Tests bestanden.
+- Kein echter Spieldurchlauf automatisiert getestet. Browserupdates, Windows-
+  Standby und echte Sensor-/Serverausfälle sind keine durch diese Tests
+  ausgeschlossenen Ursachen für zukünftige Pausen oder fehlende Messpunkte.

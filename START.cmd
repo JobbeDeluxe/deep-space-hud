@@ -34,5 +34,5 @@ if errorlevel 1 (
   exit /b 1
 )
 :run
-".venv\Scripts\python.exe" server.py
+".venv\Scripts\python.exe" server.py --app-window %*
 if errorlevel 1 pause
