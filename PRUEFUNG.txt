@@ -124,3 +124,15 @@ Release v1.2.2 — 09.11.2026, Windows / Chrome 156 / Python unittest
 - Kein echter Spieldurchlauf automatisiert getestet. Browserupdates, Windows-
   Standby und echte Sensor-/Serverausfälle sind keine durch diese Tests
   ausgeschlossenen Ursachen für zukünftige Pausen oder fehlende Messpunkte.
+
+Release v1.2.3 — 10.11.2026, Windows / Chrome / Playwright
+- Neue 1024×600-Ansicht und vergrößertes Setup visuell geprüft: Temperaturwerte,
+  Netzwerkwerte, Einheiten, Beschriftungen und Achsen passen in ihre Bereiche.
+- Laufende Installation geprüft: Temperatur-/Netzwerkschrift 22 px, Uhr 44 px;
+  Downlink-Text und Überschrift schließen jeweils 10 px vor dem Verlaufscanvas ab.
+- Bestehende Warnfarben-, Temperaturgrenzen-, Animations-, Netzwerk-Einheiten-,
+  feste Skalen-, Überlauf-, Speicherungs- und Verlaufslückentests bestanden.
+- Sternenflug, reduzierte Bewegung und gespeicherte Optionen geprüft.
+- Demo mit 360 Frames / 24 Sekunden neu aufgenommen, orange Phase bei 74 %
+  bleibt mehrere Sekunden sichtbar. Statische Vorschau ebenfalls aktualisiert.
+- ZIP-Dateien einzeln mit den Quelldateien abgeglichen; SHA-256 erstellt.

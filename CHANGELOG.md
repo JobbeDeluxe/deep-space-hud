@@ -1,5 +1,15 @@
 # Änderungen
 
+## v1.2.3 · 10.11.2026
+
+- Temperaturwerte von 13 auf 22 px, Netzwerkwerte von 12 auf 22 px vergrößert.
+- Netzwerkbezeichnung über dem Messwert; Upload-/Download-Historie weiterhin außen.
+- Downlink-Pfeil, Beschriftung und Zahlen rechtsbündig direkt neben der Verlaufsskala.
+- Größere, kontrastreichere Ringbeschriftungen, VRAM-Anzeige, Verlaufsskalen,
+  Zeitachsen und Setup-Texte für kleine HDMI-Displays.
+- Uhrkasten von 330 × 229 auf 280 × 192 px verkleinert, Uhrzeit von 58 auf 44 px.
+- Aktualisierte statische Vorschau und 24-Sekunden-GIF mit dem neuen Layout.
+
 ## v1.2.2 · 09.11.2026
 
 - START.cmd öffnet ein separates Chrome-/Edge-HUD-Fenster mit eigenem Profil

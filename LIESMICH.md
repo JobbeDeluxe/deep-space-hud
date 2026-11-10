@@ -28,6 +28,17 @@ Zum Beenden im Terminal **Strg+C** drücken. Ein offenes Panel zeigt dann
 
 ## Erst einmal das Design ansehen
 
+### Lesbarkeit auf kleinen Displays (v1.2.3)
+
+Temperaturen und Netzwerkwerte verwenden 22 px große Schrift. Die Netzwerk-
+Bezeichnung steht über dem Messwert; die Verlaufskurve bleibt außen daneben.
+Ringbeschriftungen, Prozentwerte der kleinen Ringe, Achsen und Einstellungen
+sind größer und kontrastreicher. Der Uhrkasten ist kompakter und die Uhrzeit
+kleiner. Die Änderungen sind auf die native Darstellung mit 1024 × 600 Pixeln
+abgestimmt; bei kleineren Fenstergrößen wird weiterhin das ganze HUD skaliert.
+
+### Vorschau ohne Sensorservice
+
 **Deep-Space-HUD.html** direkt doppelklicken. Ohne Sensorservice startet die
 Datei ausdrücklich in einer **Demo mit simulierten Werten**. Dafür sind weder
 Python noch Internet nötig. Diese Ansicht liest keine echten PC-Sensoren aus.

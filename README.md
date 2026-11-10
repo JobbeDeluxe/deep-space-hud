@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow · v1.2.2
+# Deep Space HUD · Cyan Flow · v1.2.3
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -14,12 +14,21 @@ and a browser-based HUD.**
 · [Alle Releases](https://github.com/JobbeDeluxe/deep-space-hud/releases)
 · [Vollständige Anleitung](LIESMICH.md)
 
-![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo-v1.2.1.gif)
+![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo-v1.2.3.gif)
 
 *24-Sekunden-Demo: niedrige Last, längere orange Phase bei 74 %, hohe Last
 und zurück. Sternenflug, Warnfarben und beschriftete Verlaufskurven.
 Alle Messwerte im GIF sind simuliert.*
 [Statische Vorschau](VORSCHAU-DEMO.png) · [Deutsche Anleitung](LIESMICH.md)
+
+## Neu in v1.2.3: bessere Lesbarkeit am HDMI-Display
+
+Temperaturen und Netzwerkwerte sind jetzt **22 px** groß. Netzwerkbezeichnung
+und Messwert stehen auf zwei Zeilen; die Verlaufskurven bleiben jeweils außen.
+Der Downlink-Block sitzt rechtsbündig direkt neben seiner Verlaufsskala.
+Größere, kontrastreichere Beschriftungen, Skalen und Setup-Texte erleichtern das
+Ablesen auf kleinen Displays. Der Uhrkasten ist kompakter (280 × 192 px),
+die Uhrzeit etwas kleiner. Das Layout bleibt auf **1024 × 600** abgestimmt.
 
 ## Starten
 
