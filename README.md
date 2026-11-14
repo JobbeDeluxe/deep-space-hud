@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow · v1.2.3
+# Deep Space HUD · Cyan Flow · v1.3.0
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -14,14 +14,23 @@ and a browser-based HUD.**
 · [Alle Releases](https://github.com/JobbeDeluxe/deep-space-hud/releases)
 · [Vollständige Anleitung](LIESMICH.md)
 
-![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo-v1.2.3.gif)
+![Deep Space HUD – animierte Vorschau mit simulierten Demowerten](assets/deep-space-demo-v1.3.0.gif)
 
 *24-Sekunden-Demo: niedrige Last, längere orange Phase bei 74 %, hohe Last
 und zurück. Sternenflug, Warnfarben und beschriftete Verlaufskurven.
 Alle Messwerte im GIF sind simuliert.*
 [Statische Vorschau](VORSCHAU-DEMO.png) · [Deutsche Anleitung](LIESMICH.md)
 
-## Neu in v1.2.3: bessere Lesbarkeit am HDMI-Display
+## Neu in v1.3.0: fester Bildschirm, Vollbild und Start ohne Konsole
+
+Das HUD lässt sich dauerhaft einem Bildschirm zuordnen und im Vollbild
+**immer im Vordergrund** anzeigen. Die Optionen stehen direkt unter
+**S → HUD-Fenster**. **START-OHNE-KONSOLE.vbs** startet ohne sichtbares CMD-Fenster;
+**HUD beenden** oder **Alt+F4** beendet auch den Sensorserver.
+
+![Fensteroptionen im HUD-Setup mit simulierten Demowerten](assets/hud-window-setup.png)
+
+## Lesbarkeit am HDMI-Display
 
 Temperaturen und Netzwerkwerte sind jetzt **22 px** groß. Netzwerkbezeichnung
 und Messwert stehen auf zwei Zeilen; die Verlaufskurven bleiben jeweils außen.
@@ -35,12 +44,33 @@ die Uhrzeit etwas kleiner. Das Layout bleibt auf **1024 × 600** abgestimmt.
 1. Das Windows-Paket herunterladen und vollständig entpacken.
 2. **Python 3.10 oder neuer, 64 Bit** von [python.org](https://www.python.org/downloads/windows/)
    installieren, falls es noch fehlt. Im Installer **Add python.exe to PATH** aktivieren.
-3. **START.cmd** doppelklicken. Der erste Start installiert die benötigten
+3. **START-OHNE-KONSOLE.vbs** doppelklicken. Der erste Start installiert die benötigten
    Python-Bibliotheken in einer lokalen `.venv`; dafür wird Internet benötigt.
    Chrome oder Edge öffnet ein eigenes HUD-Fenster für den Hintergrundbetrieb.
-4. In Windows den Desktop auf das HDMI-Display **erweitern**, das Browserfenster
-   auf dieses Display ziehen und **F** oder **F11** für Vollbild drücken.
-5. Das Terminal offen lassen. Zum Beenden dort **Strg+C** drücken.
+4. In Windows den Desktop auf das HDMI-Display **erweitern**. Im HUD mit **S**
+   das Setup öffnen und unter **HUD-Fenster** Bildschirm, Vollbild und
+   **Immer im Vordergrund** auswählen. **Fenster übernehmen** speichert die Auswahl.
+5. Beenden über **S → HUD beenden** oder **Alt+F4** im HUD-Fenster. Der lokale
+   Sensorserver beendet sich ebenfalls; es bleibt kein CMD-Fenster offen.
+
+**START.cmd** bleibt als Variante mit sichtbarer Diagnosekonsole verfügbar.
+Falls Windows Script Host deaktiviert ist, kann auch **launch.pyw** mit Python
+gestartet werden. Fehlermeldungen stehen in `launch.log` beziehungsweise `hud.log`.
+
+### Fensteroptionen
+
+Vollbild und Vordergrundmodus sind beim ersten Start eingeschaltet. Der zunächst
+verwendete Bildschirm wird gespeichert; im Setup kann ein anderer gewählt werden.
+Die Auswahl bleibt in `window-settings.json` im HUD-Ordner erhalten. Fehlt der
+Bildschirm vorübergehend, nutzt das HUD den Hauptbildschirm und kehrt bei erneuter
+Verbindung zum gewählten Bildschirm zurück. **F/F11** wechseln Vollbild; **Esc**
+verlässt Vollbild, wenn das Setup geschlossen ist. Der Vordergrundmodus ändert
+die Fensterreihenfolge, ohne ständig den Tastaturfokus zu übernehmen.
+
+„Immer im Vordergrund“ gilt für normale Desktop-Fenster. Exklusives Spiele-Vollbild
+und Windows-Sicherheitsbildschirme können darüber liegen; neben Spielen das HUD
+auf dem eigenen HDMI-Display betreiben. Ein erneuter Start zeigt das bereits
+laufende HUD, statt einen zweiten Sensorserver zu starten.
 
 Das Panel läuft lokal unter `http://127.0.0.1:8765`. Es benötigt weder InfoPanel
 noch TelemetryForge und sendet keine PC-Messwerte an einen Cloud-Dienst.
@@ -61,8 +91,8 @@ die Effektstärke verändern und Bewegungen ausschalten.
 
 ## Hintergrundbetrieb
 
-**Für das HDMI-Display neben einem Spiel: `START.cmd` verwenden.** Seit v1.2.2
-öffnet es ein eigenes Chrome-/Edge-Fenster mit separatem HUD-Profil. In diesem
+**Für das HDMI-Display neben einem Spiel: `START-OHNE-KONSOLE.vbs` verwenden.**
+Der Starter öffnet ein eigenes Chrome-/Edge-Fenster mit separatem HUD-Profil. In diesem
 Profil sind Energie-/Speichersparen und automatisches Einfrieren bei der ersten
 Einrichtung deaktiviert; Startparameter verhindern die Timerdrosselung und
 Hintergrundbehandlung verdeckter Fenster. Das normale Browserprofil wird nicht

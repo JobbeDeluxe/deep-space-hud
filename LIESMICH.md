@@ -10,21 +10,33 @@ kein InfoPanel-Import und kein TelemetryForge erforderlich.
 2. Falls noch nicht vorhanden: **Python 3.10 oder neuer, 64 Bit** von
    <https://www.python.org/downloads/windows/> installieren. Im Installer
    **Add python.exe to PATH** aktivieren.
-3. **START.cmd** doppelklicken. Beim ersten Start richtet sie eine Python-Umgebung
+3. **START-OHNE-KONSOLE.vbs** doppelklicken. Beim ersten Start wird eine Python-Umgebung
    im Unterordner `.venv` ein und lädt `psutil` sowie `pycaw` mit Abhängigkeiten
-   von PyPI. Dafür wird einmalig Internet benötigt. Das Terminal offen lassen.
+   von PyPI eingerichtet. Dafür wird einmalig Internet benötigt. Es bleibt kein
+   CMD-Fenster offen. **START.cmd** ist weiterhin für sichtbare Diagnoseausgaben da.
 4. Windows → Einstellungen → System → Anzeige: **Diese Anzeigen erweitern**,
    beim HDMI-Display **1024 × 600** einstellen. Für scharfe Schrift möglichst
    100 % Windows-Skalierung und 100 % Browser-Zoom verwenden.
-5. Das automatisch geöffnete Browserfenster auf das HDMI-Display ziehen
-   (alternativ **Windows + Umschalt + Pfeil links/rechts**). **F** oder **F11**
-   aktiviert Vollbild. **Esc** beendet das per F aktivierte Vollbild;
-   das Browser-Vollbild per F11 wird mit F11 beendet.
+5. **S → HUD-Fenster** öffnen: Bildschirm, Vollbild und **Immer im Vordergrund**
+   auswählen, dann **Fenster übernehmen** drücken. Die Auswahl wird im HUD-Ordner
+   in `window-settings.json` gespeichert. Vollbild und Vordergrundmodus sind
+   standardmäßig eingeschaltet. **F/F11** wechseln Vollbild, **Esc** verlässt
+   Vollbild bei geschlossenem Setup.
 
 Das Panel läuft unter <http://127.0.0.1:8765>. Es passt sich proportional an
 andere Auflösungen an; abweichende Seitenverhältnisse ergeben schwarze Ränder.
-Zum Beenden im Terminal **Strg+C** drücken. Ein offenes Panel zeigt dann
-„SENSOREN OFFLINE“ und entfernt die Messwerte.
+Zum vollständigen Beenden **S → HUD beenden** oder im HUD **Alt+F4** drücken.
+Der Sensorserver endet ebenfalls. Bei einem erneuten Start während des Betriebs
+wird die bestehende Instanz verwendet. Startfehler stehen in `launch.log` oder
+`hud.log`; bei deaktiviertem Windows Script Host kann `launch.pyw` mit Python
+gestartet werden. Für START.cmd gilt weiterhin: Konsole offen lassen,
+**Strg+C** beendet den Server und das eigene HUD-Fenster.
+
+Ist der gespeicherte Bildschirm nicht angeschlossen, nutzt das HUD vorübergehend
+den Hauptbildschirm. Nach Wiederanschluss kehrt es zum gewählten Bildschirm zurück.
+„Immer im Vordergrund“ hält das HUD über normalen Desktop-Fenstern, ohne laufend
+den Tastaturfokus umzuschalten. Exklusives Spiele-Vollbild oder Windows-
+Sicherheitsbildschirme können darüber liegen.
 
 ## Erst einmal das Design ansehen
 
@@ -89,7 +101,7 @@ Wenn der Browser einen Tab vollständig einfriert, werden die gemessenen Punkte
 beim Zurückwechseln nachgeladen. Ein kurzes Verbindungsproblem löscht nicht
 sofort die aktuellen Werte; ein länger anhaltender Ausfall wird weiterhin
 als offline angezeigt. Sensorlücken werden nicht durch erfundene Werte ersetzt.
-**server.py / START.cmd muss währenddessen laufen.**
+**Der Sensorserver muss währenddessen laufen; beim Start ohne Konsole läuft er im Hintergrund.**
 
 Die Messung verwendet ab v1.2.2 einen festen Sekundentakt. Die potenziell
 blockierende Windows-Audioabfrage läuft separat; ihr Ausfall lässt CPU, RAM und
@@ -97,8 +109,9 @@ Netzwerk weiterlaufen. Alte Lautstärkewerte werden nach acht Sekunden verworfen
 Abgebrochene HTTP-Verbindungen (auch Windows-Fehler 10053/10054) sind erwartete
 Verbindungsabbrüche und erzeugen keinen Traceback mehr.
 
-Beim Update den alten Server mit **Strg+C** beenden, Dateien ersetzen und
-**START.cmd** starten. Ein bloßes Neuladen des alten Browser-Tabs aktiviert
+Beim Update das alte HUD über **HUD beenden** oder die Konsole mit **Strg+C**
+beenden, Dateien ersetzen und **START-OHNE-KONSOLE.vbs** starten. Eigene
+`config.json` und `window-settings.json` behalten. Ein bloßes Neuladen des alten Browser-Tabs aktiviert
 den neuen Fenstermodus nicht. Windows-Standby, ein gestoppter Sensorserver oder
 echte Sensorausfälle können weiterhin Messlücken verursachen.
 
@@ -230,19 +243,20 @@ die automatische LHM-Erkennung fehlen.
 
 - **START.cmd meldet Python fehlt:** Python installieren und den Installer-PATH
   aktivieren. Danach Terminal und START.cmd neu öffnen.
-- **Installation schlägt fehl:** Internetverbindung prüfen. Das Terminal zeigt
-  die eigentliche pip-Fehlermeldung. Dateien vollständig entpacken und einen
+- **Installation schlägt fehl:** Internetverbindung prüfen. `launch.log` oder
+  das Terminal bei START.cmd zeigt die pip-Fehlermeldung. Dateien vollständig entpacken und einen
   beschreibbaren Ordner verwenden.
 - **Port belegt:** Eine zweite Instanz schließen oder `port` in `config.json`
   ändern. Die neue URL wird im Terminal ausgegeben.
-- **Nur Demo zu sehen:** Echte Werte gibt es über START.cmd und die lokale
+- **Nur Demo zu sehen:** Echte Werte gibt es über den HUD-Starter und die lokale
   HTTP-Adresse. Direkt geöffnete HTML-Dateien sind zunächst im Demo-Modus.
 - **Keine GPU/Temperatur:** LHM-Webserver und `data.json` prüfen. Ein normaler
   HDMI-Anschluss transportiert das Bild, liefert aber keine Sensoren.
 - **Keine Lautstärke:** Standard-Wiedergabegerät in Windows prüfen. Ohne
   verfügbares Audiogerät bleibt dieser Wert leer.
-- **Fenster landet auf dem Hauptbildschirm:** Auf den HDMI-Bildschirm verschieben,
-  dann Vollbild aktivieren. Dieses Paket verändert keine Windows-Anzeigeeinstellungen
+- **Fenster landet auf dem Hauptbildschirm:** Unter S → HUD-Fenster den HDMI-
+  Bildschirm auswählen und „Fenster übernehmen“ drücken. Fehlt er in der Liste,
+  Anschluss und Windows-Anzeigemodus prüfen. Dieses Paket verändert keine Windows-Anzeigeeinstellungen
   und richtet keinen Autostart ein.
 
 ## Technik und Prüfung

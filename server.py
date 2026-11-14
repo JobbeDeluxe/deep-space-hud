@@ -18,7 +18,8 @@ from urllib.request import ProxyHandler, build_opener
 import webbrowser
 
 import psutil
-from hud_window import open_hud_window
+from hud_window import open_hud_window, find_browser
+from window_control import WindowController
 
 ROOT = Path(__file__).resolve().parent
 KEYS = ('cpu', 'ram', 'disk', 'volume', 'cpu_temp', 'gpu', 'gpu_temp', 'vram', 'up', 'down')
@@ -263,8 +264,63 @@ def main():
     port = args.port or int(config['port'])
     telemetry = Telemetry(config)
     html = (ROOT / 'Deep-Space-HUD.html').read_bytes()
+    browser = find_browser() if args.app_window else None
+    window = WindowController(ROOT / 'window-settings.json',
+                              Path.home() / '.deep-space-hud' / (browser.stem if browser else 'chrome'),
+                              enabled=bool(browser), on_closed=lambda: server.shutdown())
+
+    def shutdown_hud():
+        window.close()
+        telemetry.stop.set()
+        server.shutdown()
 
     class Handler(LocalRequestHandler):
+        def json_response(self, value, status=200):
+            body = json.dumps(value, allow_nan=False).encode('utf-8')
+            self.send_response(status)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('X-Content-Type-Options', 'nosniff')
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_POST(self):
+            hosts = (f'127.0.0.1:{port}', f'localhost:{port}')
+            if (self.headers.get('Host') not in hosts
+                    or self.headers.get('Origin') not in tuple('http://' + h for h in hosts)
+                    or self.headers.get('Sec-Fetch-Site') == 'cross-site'
+                    or self.headers.get_content_type() != 'application/json'):
+                self.send_error(403)
+                return
+            try:
+                length = int(self.headers.get('Content-Length', '0'))
+                if not 0 < length <= 4096:
+                    raise ValueError('Ungueltige Anfragegroesse.')
+                self.connection.settimeout(5)
+                data = json.loads(self.rfile.read(length))
+                path = urlsplit(self.path).path
+                if path == '/api/window':
+                    self.json_response(window.update(data))
+                elif path == '/api/window/show':
+                    if not window.supported:
+                        raise ValueError('Eigener HUD-Fenstermodus ist nicht aktiv.')
+                    if not window.snapshot()['attached']:
+                        open_hud_window(f'http://127.0.0.1:{port}')
+                    window.show()
+                    self.json_response({'ok': True})
+                elif path == '/api/shutdown':
+                    self.json_response({'ok': True})
+                    threading.Thread(target=shutdown_hud, daemon=True).start()
+                else:
+                    self.send_error(404)
+            except (ValueError, UnicodeError) as exc:
+                self.json_response({'error': str(exc)}, 400)
+            except OSError as exc:
+                if isinstance(exc, (ConnectionError, TimeoutError)):
+                    raise
+                self.json_response({'error': 'Speichern fehlgeschlagen: ' + str(exc)}, 500)
+
         def do_GET(self):
             # Reject foreign Host headers and cross-site browser fetches.
             if self.headers.get('Host', '') not in (f'127.0.0.1:{port}', f'localhost:{port}'):
@@ -274,6 +330,9 @@ def main():
                 self.send_error(403)
                 return
             path = urlsplit(self.path).path
+            if path == '/api/window':
+                self.json_response(window.snapshot())
+                return
             if path == '/api/events':
                 self.send_response(200)
                 self.send_header('Content-Type', 'text/event-stream; charset=utf-8')
@@ -323,6 +382,7 @@ def main():
         print(f'Port {port} kann nicht geoeffnet werden: {exc}\nLaeuft das HUD schon? Sonst port in config.json aendern.')
         return 1
     telemetry.start()
+    window.start()
     url = f'http://127.0.0.1:{port}'
     print(f'\nDEEP SPACE // HDMI HUD\n{url}\n\nFenster auf das HDMI-Display verschieben, dann F oder F11.\nDieses Fenster offen lassen. Beenden: Strg+C.\n')
     if not args.no_browser:
@@ -333,6 +393,7 @@ def main():
     except KeyboardInterrupt:
         pass
     finally:
+        window.close()
         telemetry.stop.set()
         server.server_close()
     return 0

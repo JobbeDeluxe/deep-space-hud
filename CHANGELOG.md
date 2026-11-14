@@ -1,5 +1,15 @@
 # Änderungen
 
+## v1.3.0 · 14.11.2026
+
+- Fensteroptionen im Setup: fester Bildschirm, echtes Vollbild und „Immer im Vordergrund“.
+- Dauerhafte Speicherung in window-settings.json; Hauptbildschirm als Rückfall bei
+  abgezogenem Display und Rückkehr nach Wiederanschluss.
+- START-OHNE-KONSOLE.vbs / launch.pyw startet ohne sichtbare CMD-Konsole, mit
+  Einrichtung bei Bedarf und Fehlerprotokollen. START.cmd bleibt zur Diagnose.
+- HUD beenden im Setup und automatisches Beenden des Sensorservers nach dem
+  Schließen des letzten eigenen HUD-Fensters. Erneuter Start verwendet die laufende Instanz.
+
 ## v1.2.3 · 10.11.2026
 
 - Temperaturwerte von 13 auf 22 px, Netzwerkwerte von 12 auf 22 px vergrößert.

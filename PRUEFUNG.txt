@@ -136,3 +136,16 @@ Release v1.2.3 — 10.11.2026, Windows / Chrome / Playwright
 - Demo mit 360 Frames / 24 Sekunden neu aufgenommen, orange Phase bei 74 %
   bleibt mehrere Sekunden sichtbar. Statische Vorschau ebenfalls aktualisiert.
 - ZIP-Dateien einzeln mit den Quelldateien abgeglichen; SHA-256 erstellt.
+
+Release v1.3.0 — 14.11.2026, Fenstermodus
+- 12 Python-Tests: bestehende Telemetrie und neue Fensteroptionen, Speicherung,
+  Monitor-Ausfall/Rückkehr, fehlerhafte Eingaben, Schreibfehler und Besitzprüfung.
+- Echtes isoliertes Chrome-HUD: Vollbild 1024×600 Clientfläche auf DISPLAY2,
+  Rahmen bei Rückkehr wiederhergestellt; WS_EX_TOPMOST an/aus geprüft.
+- Laufende Installation: DISPLAY2 fest zugeordnet, Vollbild und Vordergrund aktiv.
+- Setup-Oberfläche, Auswahl/Checkboxen, Übernehmen, F/Esc und Beenden getestet.
+- HTTP-Fenstersteuerung akzeptiert nur lokale Origin/Host mit JSON; fremde
+  Origin beim Beenden und falsche Einstellungstypen werden zurückgewiesen.
+- Bestehende Animations-, Warnfarben-, Netzwerk- und Verlaufstests bestanden.
+- START-OHNE-KONSOLE.vbs mit vorhandener Umgebung gestartet; Pythonw-Service
+  und gespeicherte Optionen geprüft. Neuinstallation ohne Python nicht getestet.

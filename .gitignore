@@ -4,5 +4,7 @@ __pycache__/
 .env
 .env.*
 *.log
+window-settings.json
+window-settings.tmp
 .DS_Store
 Thumbs.db
