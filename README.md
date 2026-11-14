@@ -1,4 +1,4 @@
-# Deep Space HUD · Cyan Flow · v1.3.0
+# Deep Space HUD · Cyan Flow · v1.3.1
 
 Animiertes PC-Statuspanel für ein **1024 × 600 HDMI-Display** unter Windows 10/11.
 CPU, GPU, RAM, Laufwerksbelegung, Lautstärke, Temperaturen und Netzwerkwerte in
@@ -21,7 +21,19 @@ und zurück. Sternenflug, Warnfarben und beschriftete Verlaufskurven.
 Alle Messwerte im GIF sind simuliert.*
 [Statische Vorschau](VORSCHAU-DEMO.png) · [Deutsche Anleitung](LIESMICH.md)
 
-## Neu in v1.3.0: fester Bildschirm, Vollbild und Start ohne Konsole
+## Hotfix v1.3.1: Start ohne doppelte Fenster
+
+Erneutes oder gleichzeitiges Starten verwendet das vorhandene HUD-Fenster.
+Auch nach einem Serverausfall wird ein noch offenes Fenster wieder verbunden.
+Während des Verbindungsaufbaus erscheint „VERBINDE“ statt der irreführenden
+Aufforderung, zusätzlich START.cmd zu starten.
+
+**Update:** HUD beenden, das neue Windows-Paket in den vorhandenen HUD-Ordner
+entpacken und Dateien ersetzen. Danach **START-OHNE-KONSOLE.vbs** starten.
+Die gespeicherten Fenster- und Browser-Einstellungen bleiben erhalten.
+Die Vorschau oben zeigt das weiterhin aktuelle Layout aus v1.3.0.
+
+## Seit v1.3.0: fester Bildschirm, Vollbild und Start ohne Konsole
 
 Das HUD lässt sich dauerhaft einem Bildschirm zuordnen und im Vollbild
 **immer im Vordergrund** anzeigen. Die Optionen stehen direkt unter

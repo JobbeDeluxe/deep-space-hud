@@ -20,6 +20,7 @@ import webbrowser
 import psutil
 from hud_window import open_hud_window, find_browser
 from window_control import WindowController
+from instance import ServiceLease, show_existing_hud
 
 ROOT = Path(__file__).resolve().parent
 KEYS = ('cpu', 'ram', 'disk', 'volume', 'cpu_temp', 'gpu', 'gpu_temp', 'vram', 'up', 'down')
@@ -305,9 +306,8 @@ def main():
                 elif path == '/api/window/show':
                     if not window.supported:
                         raise ValueError('Eigener HUD-Fenstermodus ist nicht aktiv.')
-                    if not window.snapshot()['attached']:
-                        open_hud_window(f'http://127.0.0.1:{port}')
-                    window.show()
+                    if not window.ensure_window(lambda: open_hud_window(f'http://127.0.0.1:{port}')):
+                        raise OSError('HUD-Fenster konnte nicht geöffnet werden.')
                     self.json_response({'ok': True})
                 elif path == '/api/shutdown':
                     self.json_response({'ok': True})
@@ -376,9 +376,18 @@ def main():
         def log_message(self, *args):
             pass
 
+    lease = ServiceLease(port)
+    if not lease.acquired:
+        if args.app_window and show_existing_hud(port, timeout=8):
+            return 0
+        print('Das HUD wird bereits gestartet oder läuft schon.')
+        return 1
     try:
         server = ThreadingHTTPServer(('127.0.0.1', port), Handler)
     except OSError as exc:
+        lease.close()
+        if args.app_window and show_existing_hud(port, timeout=3):
+            return 0
         print(f'Port {port} kann nicht geoeffnet werden: {exc}\nLaeuft das HUD schon? Sonst port in config.json aendern.')
         return 1
     telemetry.start()
@@ -386,7 +395,10 @@ def main():
     url = f'http://127.0.0.1:{port}'
     print(f'\nDEEP SPACE // HDMI HUD\n{url}\n\nFenster auf das HDMI-Display verschieben, dann F oder F11.\nDieses Fenster offen lassen. Beenden: Strg+C.\n')
     if not args.no_browser:
-        if not args.app_window or not open_hud_window(url):
+        if args.app_window and window.supported:
+            # Run after serve_forever begins so a reused offline window can load.
+            threading.Thread(target=lambda: window.ensure_window(lambda: open_hud_window(url), reload_existing=True), daemon=True).start()
+        else:
             webbrowser.open(url)
     try:
         server.serve_forever()
@@ -396,6 +408,7 @@ def main():
         window.close()
         telemetry.stop.set()
         server.server_close()
+        lease.close()
     return 0
 
 

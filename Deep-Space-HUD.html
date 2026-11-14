@@ -108,6 +108,8 @@ for(const key of metrics){
   direction:ringDirection==='clockwise'?1:ringDirection==='counterclockwise'?-1:Math.random()<.5?-1:1,nextDrift:ringInterval*(.75+Math.random()*.5)});
 }
 let values={},sources={},live=false,lastFrame=0,lastHistory=0,requestId=0,visualCpu=0;
+let connectionStartedAt=Date.now(),hasReceivedTelemetry=false;
+function connecting(){return !hasReceivedTelemetry&&Date.now()-connectionStartedAt<8000}
 const historyKeys=['cpu','gpu','up','down'];
 function emptyHistory(){return Object.fromEntries(historyKeys.map(key=>[key,[]]))}
 let history=emptyHistory();
@@ -130,7 +132,7 @@ function rateText(value,unit){
 }
 function rate(id,value){const unit=rateUnit(value);$(id).innerHTML=`${rateText(value,unit).replace('<','&lt;')} <small>${unit}</small>`}
 function applyValues(data,connected){
- values=data;live=connected;
+ values=data;live=connected;if(connected)hasReceivedTelemetry=true;
  for(const k of metrics){dials[k].number.textContent=fmt(data[k]);dials[k].number.style.color=warningColor(data[k],usageOrange,usageRed)}
  temperature('cpuTemp',data.cpu_temp);temperature('gpuTemp',data.gpu_temp);
  $('vramValue').textContent=fmt(data.vram)+(valid(data.vram)?'%':'');
@@ -138,9 +140,9 @@ function applyValues(data,connected){
  rate('upValue',data.up);rate('downValue',data.down);
  $('volumeSub').textContent=data.muted?'STUMMGESCHALTET':'LAUTSTÄRKE';
  $('diskTag').textContent=data.disk_path||'SYSTEM DISK';
- $('banner').textContent=demo?'DEMO / BEISPIELWERTE':!connected?'KEINE VERBINDUNG / START.cmd starten':'';
+ $('banner').textContent=demo?'DEMO / BEISPIELWERTE':!connected?(connecting()?'VERBINDE MIT SENSOR-SERVER':'SENSOREN OFFLINE / VERBINDE ERNEUT'):'';
  const partial=metrics.some(k=>!valid(data[k]))||!valid(data.cpu_temp)||!valid(data.gpu_temp)||!valid(data.vram);
- $('statusText').textContent=demo?'DEMO / SIMULATION':connected?(partial?'LIVE / TEILWEISE':'SYSTEM / LIVE'):'SENSOREN OFFLINE';
+ $('statusText').textContent=demo?'DEMO / SIMULATION':connected?(partial?'LIVE / TEILWEISE':'SYSTEM / LIVE'):connecting()?'VERBINDE':'SENSOREN OFFLINE';
  $('state').style.color=demo?'#ffbf69':connected?'#40e4ef':'#758e9a';
  $('loadMode').textContent=!valid(data.cpu)?'NO SIGNAL':data.cpu>=80?'HIGH LOAD':data.cpu>=35?'ACTIVE':'IDLE';
  $('footerStatus').textContent=demo?'DEMO':connected?'LIVE · 1 Hz':'OFFLINE';
@@ -152,7 +154,7 @@ function updateSources(){
  if(!valid(values.cpu_temp))missing.push('CPU-Temperatur');
  if(!valid(values.gpu_temp))missing.push('GPU-Temperatur');
  if(!valid(values.vram))missing.push('VRAM');
- const lines=[live?'Lokaler Sensorservice verbunden.':'Keine Verbindung. ZIP entpacken und START.cmd starten.',missing.length?'Fehlende Sensoren: '+missing.join(', '):'Alle angezeigten Sensoren verfügbar.',
+ const lines=[live?'Lokaler Sensorservice verbunden.':connecting()?'Verbindung zum Sensorservice wird aufgebaut.':'Keine Verbindung. Automatischer Wiederverbindungsversuch läuft. Falls der Server beendet wurde: START-OHNE-KONSOLE.vbs starten.',missing.length?'Fehlende Sensoren: '+missing.join(', '):'Alle angezeigten Sensoren verfügbar.',
  'CPU / RAM / Laufwerk / Netzwerk: psutil',
  'Netzwerk: '+(values.network_interface||'Summe aktiver Adapter'),
  'CPU-Temperatur: '+(sources.cpu_temp||'LibreHardwareMonitor erforderlich'),
@@ -229,7 +231,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)resumeTele
 document.addEventListener('resume',resumeTelemetry);
 document.addEventListener('freeze',()=>{requestId++;pollController?.abort();closeEvents()});
 addEventListener('pagehide',()=>{requestId++;pollController?.abort();closeEvents()});
-function switchDemo(next){demo=next;requestId++;pollController?.abort();closeEvents();lastTelemetryAt=0;$('demoToggle').checked=demo;$('demoLoad').disabled=!demo;history=emptyHistory();lastHistory=0;visualCpu=0;for(const k of metrics)dials[k].display=0;values={};sources={};applyValues({},false);for(const key of historyKeys)drawHistory(key);connectEvents();poll()}
+function switchDemo(next){demo=next;connectionStartedAt=Date.now();hasReceivedTelemetry=false;requestId++;pollController?.abort();closeEvents();lastTelemetryAt=0;$('demoToggle').checked=demo;$('demoLoad').disabled=!demo;history=emptyHistory();lastHistory=0;visualCpu=0;for(const k of metrics)dials[k].display=0;values={};sources={};applyValues({},false);for(const key of historyKeys)drawHistory(key);connectEvents();poll()}
 function niceCeiling(value){
  const power=10**Math.floor(Math.log10(Math.max(value,1e-9)));
  return [1,2,5,10].find(n=>n*power>=value)*power;

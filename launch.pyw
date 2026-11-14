@@ -6,7 +6,7 @@ import os
 import subprocess
 import sys
 import traceback
-from urllib.request import Request, build_opener, ProxyHandler
+from instance import show_existing_hud
 
 ROOT = Path(__file__).resolve().parent
 NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
@@ -14,22 +14,6 @@ NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 
 def notice(message):
     ctypes.windll.user32.MessageBoxW(None, message, 'Deep Space HUD', 0x10)
-
-
-def active_hud(port):
-    url = f'http://127.0.0.1:{port}'
-    opener = build_opener(ProxyHandler({}))
-    try:
-        with opener.open(url + '/api/window', timeout=2) as response:
-            info = json.load(response)
-        if info.get('app') != 'deep-space-hud' or not info.get('supported'):
-            return False
-        request = Request(url + '/api/window/show', data=b'{}',
-                          headers={'Origin': url, 'Content-Type': 'application/json'})
-        with opener.open(request, timeout=3) as response:
-            return response.status == 200
-    except Exception:
-        return False
 
 
 def main():
@@ -53,7 +37,7 @@ def main():
                          creationflags=NO_WINDOW)
         return
     config = json.loads((ROOT / 'config.json').read_text(encoding='utf-8-sig')) if (ROOT / 'config.json').exists() else {}
-    if active_hud(int(config.get('port', 8765))):
+    if show_existing_hud(int(config.get('port', 8765))):
         return
     log_path = ROOT / 'hud.log'
     if log_path.exists() and log_path.stat().st_size > 2_000_000:

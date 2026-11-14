@@ -1,5 +1,14 @@
 # Änderungen
 
+## v1.3.1 · 14.11.2026 · Hotfix
+
+- Mehrfachstarts und Serverneustarts verwenden das bereits vorhandene HUD-Fenster,
+  auch wenn dieses gerade eine lokale Verbindungsfehlerseite zeigt.
+- Prozessübergreifender Startschutz und direkte Fensterprüfung verhindern doppelte
+  Dienste und Fenster bei gleichzeitigem Start.
+- Während des Verbindungsaufbaus erscheint „VERBINDE“; die veraltete Aufforderung,
+  zusätzlich START.cmd zu starten, wurde ersetzt.
+
 ## v1.3.0 · 14.11.2026
 
 - Fensteroptionen im Setup: fester Bildschirm, echtes Vollbild und „Immer im Vordergrund“.

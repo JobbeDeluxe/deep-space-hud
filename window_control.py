@@ -13,6 +13,12 @@ import psutil
 DEFAULTS = {'monitor': '', 'fullscreen': True, 'always_on_top': True}
 
 
+def is_hud_title(title):
+    # Chrome changes an app's title to its host when displaying a connection
+    # error. Only accept these exact local titles in the dedicated HUD profile.
+    return title in ('Deep Space · HDMI Telemetry', '127.0.0.1', 'localhost')
+
+
 def validate_settings(value):
     if not isinstance(value, dict) or set(value) - set(DEFAULTS):
         raise ValueError('Unbekannte Fensteroption.')
@@ -56,6 +62,7 @@ class Win32:
             'SetWindowPos': ([W.HWND, W.HWND, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, W.UINT], W.BOOL),
             'ShowWindow': ([W.HWND, ctypes.c_int], W.BOOL),
             'IsIconic': ([W.HWND], W.BOOL), 'IsZoomed': ([W.HWND], W.BOOL),
+            'IsWindowVisible': ([W.HWND], W.BOOL),
             'PostMessageW': ([W.HWND, W.UINT, W.WPARAM, W.LPARAM], W.BOOL),
         }
         for name, (args, result) in signatures.items():
@@ -101,7 +108,7 @@ class Win32:
             if pid.value in pids:
                 title = ctypes.create_unicode_buffer(512); kind = ctypes.create_unicode_buffer(128)
                 self.u.GetWindowTextW(hwnd, title, len(title)); self.u.GetClassNameW(hwnd, kind, len(kind))
-                if title.value == 'Deep Space · HDMI Telemetry' and kind.value == 'Chrome_WidgetWin_1':
+                if is_hud_title(title.value) and kind.value == 'Chrome_WidgetWin_1' and self.u.IsWindowVisible(hwnd):
                     result.append(hwnd)
             return True
         self.u.EnumWindows(visit, 0)
@@ -163,6 +170,10 @@ class Win32:
     def close(self, hwnd):
         self.u.PostMessageW(hwnd, 0x0010, 0, 0)  # WM_CLOSE
 
+    def reload(self, hwnd):
+        self.u.PostMessageW(hwnd, 0x0100, 0x74, 0x003F0001)  # F5, this window only
+        self.u.PostMessageW(hwnd, 0x0101, 0x74, 0xC03F0001)
+
 
 class WindowController:
     def __init__(self, path, profile, enabled=True, api=None, on_closed=None):
@@ -173,7 +184,7 @@ class WindowController:
         self.lock = threading.RLock(); self.stop = threading.Event(); self.wake = threading.Event()
         self.settings = dict(DEFAULTS); self.handles = {}; self.applied = {}
         self.error = ''; self.effective = None; self.monitor_list = []
-        self.seen = False; self.missing = 0; self.show_requested = False
+        self.seen = False; self.missing = 0; self.launch_pending_until = 0
         if self.path.exists():
             try:
                 self.settings.update(validate_settings(json.loads(self.path.read_text(encoding='utf-8-sig'))))
@@ -206,9 +217,36 @@ class WindowController:
         if self.supported:
             threading.Thread(target=self._run, daemon=True, name='hud-window').start()
 
-    def show(self):
+    def ensure_window(self, opener, reload_existing=False):
+        """One launch decision for startup and all concurrent show requests."""
         with self.lock:
-            self.show_requested = True; self.applied.clear(); self.wake.set()
+            if self.stop.is_set():
+                raise ValueError('HUD wird beendet. Bitte gleich noch einmal starten.')
+            # Cached handles may be stale for one sampling interval. Query now.
+            windows = self.api.windows(self.profile)
+            if windows:
+                keep = next((h for h in windows if h in self.handles), windows[0])
+                for hwnd in windows:
+                    if hwnd != keep:
+                        self.api.close(hwnd)
+                if reload_existing:
+                    self.api.reload(keep)
+                    self.launch_pending_until = time.monotonic() + 2
+                self.missing = 0
+                self.applied.clear(); self.wake.set()
+                return True
+            if time.monotonic() < self.launch_pending_until:
+                return True
+            self.launch_pending_until = time.monotonic() + 20
+            try:
+                opened = opener()
+            except Exception:
+                self.launch_pending_until = 0
+                raise
+            if not opened:
+                self.launch_pending_until = 0
+            self.wake.set()
+            return opened
 
     def close(self):
         self.stop.set(); self.wake.set()
@@ -244,12 +282,12 @@ class WindowController:
                     self.api.apply(hwnd, selected, self.settings, self.handles[hwnd])
                     self.applied[hwnd] = signature
                 self.effective = selected['id']
-            self.show_requested = False
             self.error = ''
             self.missing = 0 if windows else self.missing + 1
             if windows:
                 self.seen = True
-            should_stop = self.seen and self.missing >= 3
+                self.launch_pending_until = 0
+            should_stop = self.seen and self.missing >= 3 and time.monotonic() >= self.launch_pending_until
         if should_stop and self.on_closed:
             self.stop.set(); self.on_closed()
 

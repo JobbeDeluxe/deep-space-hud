@@ -3,10 +3,11 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from window_control import WindowController, select_monitor, validate_settings
+from window_control import WindowController, select_monitor, validate_settings, is_hud_title
 
 MONITORS = [
     {'id': 'main', 'primary': True, 'rect': [0, 0, 1920, 1080], 'work': [0, 0, 1920, 1040]},
@@ -15,6 +16,43 @@ MONITORS = [
 
 
 class WindowTests(unittest.TestCase):
+    def test_existing_window_is_reused_even_before_first_controller_tick(self):
+        with tempfile.TemporaryDirectory() as directory:
+            api = Mock(); api.windows.return_value = [123]
+            controller = WindowController(Path(directory)/'window.json', 'private', api=api)
+            self.assertFalse(controller.snapshot()['attached'])
+            opener = Mock(return_value=True)
+            controller.ensure_window(opener, reload_existing=True)
+            opener.assert_not_called(); api.reload.assert_called_once_with(123)
+
+    def test_simultaneous_show_requests_launch_once_while_window_is_loading(self):
+        with tempfile.TemporaryDirectory() as directory:
+            api = Mock(); api.windows.return_value = []
+            controller = WindowController(Path(directory)/'window.json', 'private', api=api)
+            opener = Mock(return_value=True)
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                self.assertTrue(all(pool.map(lambda _:controller.ensure_window(opener), range(16))))
+            opener.assert_called_once()
+
+    def test_duplicate_owned_hud_windows_are_collapsed_and_failed_open_can_retry(self):
+        with tempfile.TemporaryDirectory() as directory:
+            api = Mock(); api.windows.return_value = [456,123]
+            controller = WindowController(Path(directory)/'window.json', 'private', api=api)
+            controller.handles = {123:{}}
+            opener = Mock(return_value=False)
+            controller.ensure_window(opener)
+            api.close.assert_called_once_with(456); opener.assert_not_called()
+            api.windows.return_value = []
+            self.assertFalse(controller.ensure_window(opener))
+            self.assertFalse(controller.ensure_window(opener))
+            self.assertEqual(opener.call_count,2)
+
+    def test_offline_hud_title_is_recognized_without_matching_other_pages(self):
+        for title in ('Deep Space · HDMI Telemetry','127.0.0.1','localhost'):
+            self.assertTrue(is_hud_title(title))
+        for title in ('Settings','Google Chrome','127.0.0.1 - unrelated page',''):
+            self.assertFalse(is_hud_title(title))
+
     def test_select_requested_monitor_and_fallback_on_disconnect(self):
         self.assertEqual(select_monitor(MONITORS, 'hdmi')['id'], 'hdmi')
         self.assertEqual(select_monitor(MONITORS, '', 'hdmi')['id'], 'hdmi')

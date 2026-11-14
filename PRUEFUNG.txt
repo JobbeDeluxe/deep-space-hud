@@ -149,3 +149,17 @@ Release v1.3.0 — 14.11.2026, Fenstermodus
 - Bestehende Animations-, Warnfarben-, Netzwerk- und Verlaufstests bestanden.
 - START-OHNE-KONSOLE.vbs mit vorhandener Umgebung gestartet; Pythonw-Service
   und gespeicherte Optionen geprüft. Neuinstallation ohne Python nicht getestet.
+
+Hotfix v1.3.1 — 14.11.2026, Windows / Chrome / Python unittest
+- 17 Python-Tests bestanden, einschließlich prozessübergreifender Startsperre,
+  paralleler Fensteranforderungen, Wiederverwendung und Erkennung lokaler Fehlerseiten.
+- Isoliertes echtes HUD: 16 parallele Öffnungsanforderungen und drei zusätzliche
+  Serverstarts erzeugen insgesamt genau ein Browserfenster.
+- Server gezielt beendet, vorhandenes Fenster auf Verbindungsfehlerseite neu geladen:
+  nach Serverneustart dasselbe Fenster wieder verbunden, kein zusätzlicher Browserstart.
+- Laufende Installation: Server ersetzt, identisches Fenster wiederverwendet;
+  drei weitere VBS-Starts lassen Server und Fenster unverändert, Telemetrie läuft weiter.
+- Browserprüfung: Verbindungsaufbau, Offline-Meldung und korrigierte Starthilfe;
+  bestehende Warnfarben-, Animations- und Einstellungstests bestanden.
+- Windows-ZIP mit allen Quelldateien einschließlich instance.py und neuen Tests
+  abgeglichen; Archivintegrität und SHA-256 geprüft.
